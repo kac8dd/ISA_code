@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from ticket.models import UserProfile, Event, Ticket, Purchase
+from db_service.models import UserProfile, Event, Ticket, Purchase
 
 # response
 from django.shortcuts import render, render_to_response
