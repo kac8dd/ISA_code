@@ -64,7 +64,6 @@ API FORMAT (v1)
 	/api/v1/update/event/(?P<event_id>\d+)
         /api/v1/update/ticket/(?P<ticket_id>\d+)
         /api/v1/update/user/(?P<event_id>\d+)
-
         /api/v1/update/purchase(?<purchase_id\d+)
 	
    Looking up an object
