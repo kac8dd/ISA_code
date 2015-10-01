@@ -26,5 +26,5 @@ def index(request, user_id):
 			latest_events_json = url.read()
 	except HTTPError:
 		return _error_response(request, 'unable to get http response from database')
-return HttpResponse(latest_events_json)
+	return HttpResponse(latest_events_json)
 

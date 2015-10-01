@@ -1,0 +1,17 @@
+###########################################################
+##The purpose of the experience services api is to 
+##abstract away services from the web presentation layer
+########
+##This api currently only offers two services
+##	The homepage service
+##	and the eventpage service
+###########################################################
+
+API FORMAT
+	/api/vi/view_event/event=(?P<event_id>)/
+		this will return the event in json, then a "-", then the creator of the event in json
+
+	/api/v1/home/
+		this will return the last 5 events, in json, put in the database, each separated by a single "-" character 
+	 
+ 
