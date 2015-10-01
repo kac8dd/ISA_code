@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="robots" content="NONE,NOARCHIVE">
-  <title>ValueError at /home/</title>
+  <title>TypeError at /api/v1/home/</title>
   <style type="text/css">
     html * { padding:0; margin:0; }
     body * { padding:10px 20px; }
@@ -118,8 +118,8 @@
 </head>
 <body>
 <div id="summary">
-  <h1>ValueError at /home/</h1>
-  <pre class="exception_value">The view homepage.views.index didn&#39;t return an HttpResponse object. It returned None instead.</pre>
+  <h1>TypeError at /api/v1/home/</h1>
+  <pre class="exception_value">index() missing 1 required positional argument: &#39;user_id&#39;</pre>
   <table class="meta">
 
     <tr>
@@ -128,7 +128,7 @@
     </tr>
     <tr>
       <th>Request URL:</th>
-      <td>http://localhost:8002/home/</td>
+      <td>http://localhost:8002/api/v1/home/</td>
     </tr>
 
     <tr>
@@ -138,19 +138,19 @@
 
     <tr>
       <th>Exception Type:</th>
-      <td>ValueError</td>
+      <td>TypeError</td>
     </tr>
 
 
     <tr>
       <th>Exception Value:</th>
-      <td><pre>The view homepage.views.index didn&#39;t return an HttpResponse object. It returned None instead.</pre></td>
+      <td><pre>index() missing 1 required positional argument: &#39;user_id&#39;</pre></td>
     </tr>
 
 
     <tr>
       <th>Exception Location:</th>
-      <td>/usr/local/python/lib/python3.4/site-packages/django/core/handlers/base.py in get_response, line 130</td>
+      <td>/usr/local/python/lib/python3.4/site-packages/django/core/handlers/base.py in get_response, line 111</td>
     </tr>
 
     <tr>
@@ -172,7 +172,7 @@
     </tr>
     <tr>
       <th>Server time:</th>
-      <td>Thu, 1 Oct 2015 12:12:49 +0000</td>
+      <td>Thu, 1 Oct 2015 18:58:37 +0000</td>
     </tr>
   </table>
 </div>
@@ -190,13 +190,13 @@
           <code>/usr/local/python/lib/python3.4/site-packages/django/core/handlers/base.py</code> in <code>get_response</code>
 
           
-            <div class="context" id="c139692902257224">
+            <div class="context" id="c140359994382728">
               
-                <ol start="123" class="pre-context" id="pre139692902257224"><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>            # Complain if the view returned None (a common error).</pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>            if response is None:</pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>                if isinstance(callback, types.FunctionType):    # FBV</pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>                    view_name = callback.__name__</pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>                else:                                           # CBV</pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>                    view_name = callback.__class__.__name__ + &#39;.__call__&#39;</pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>                raise ValueError(&quot;The view %s.%s didn&#39;t return an HttpResponse object. It returned None instead.&quot;</pre></li></ol>
+                <ol start="104" class="pre-context" id="pre140359994382728"><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                    response = middleware_method(request, callback, callback_args, callback_kwargs)</pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                    if response:</pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                        break</pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre></pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>            if response is None:</pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                wrapped_callback = self.make_view_atomic(callback)</pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                try:</pre></li></ol>
               
-              <ol start="130" class="context-line"><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>                                 % (callback.__module__, view_name))</pre> <span>...</span></li></ol>
+              <ol start="111" class="context-line"><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                    response = wrapped_callback(request, *callback_args, **callback_kwargs)</pre> <span>...</span></li></ol>
               
-                <ol start='131' class="post-context" id="post139692902257224"><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre></pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>            # If the response supports deferred rendering, apply template</pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>            # response middleware and then render the response</pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>            if hasattr(response, &#39;render&#39;) and callable(response.render):</pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>                for middleware_method in self._template_response_middleware:</pre></li><li onclick="toggle('pre139692902257224', 'post139692902257224')"><pre>                    response = middleware_method(request, response)</pre></li></ol>
+                <ol start='112' class="post-context" id="post140359994382728"><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                except Exception as e:</pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                    # If the view raised an exception, run it through exception</pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                    # middleware, and if the exception middleware returns a</pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                    # response, use that. Otherwise, reraise the exception.</pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                    for middleware_method in self._exception_middleware:</pre></li><li onclick="toggle('pre140359994382728', 'post140359994382728')"><pre>                        response = middleware_method(request, e)</pre></li></ol>
               
             </div>
           
@@ -204,10 +204,10 @@
           
             <div class="commands">
                 
-                    <a href="#" onclick="return varToggle(this, '139692902257224')"><span>&#x25b6;</span> Local vars</a>
+                    <a href="#" onclick="return varToggle(this, '140359994382728')"><span>&#x25b6;</span> Local vars</a>
                 
             </div>
-            <table class="vars" id="v139692902257224">
+            <table class="vars" id="v140359994382728">
               <thead>
                 <tr>
                   <th>Variable</th>
@@ -217,43 +217,8 @@
               <tbody>
                 
                   <tr>
-                    <td>wrapped_callback</td>
-                    <td class="code"><pre>&lt;function index at 0x7f0cc9d08268&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
                     <td>response</td>
                     <td class="code"><pre>None</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>resolver_match</td>
-                    <td class="code"><pre>ResolverMatch(func=&lt;function index at 0x7f0cc9d08268&gt;, args=(), kwargs={}, url_name=&#39;index&#39;, app_name=&#39;None&#39;, namespace=&#39;&#39;)</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;django.core.handlers.wsgi.WSGIHandler object at 0x7f0ccc400390&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>urlconf</td>
-                    <td class="code"><pre>&#39;exp_server_code.urls&#39;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>callback_args</td>
-                    <td class="code"><pre>()</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>callback</td>
-                    <td class="code"><pre>&lt;function index at 0x7f0cc9d08268&gt;</pre></td>
-                  </tr>
-                
-                  <tr>
-                    <td>callback_kwargs</td>
-                    <td class="code"><pre>{}</pre></td>
                   </tr>
                 
                   <tr>
@@ -262,19 +227,19 @@
                   </tr>
                 
                   <tr>
-                    <td>view_name</td>
-                    <td class="code"><pre>&#39;index&#39;</pre></td>
+                    <td>callback_args</td>
+                    <td class="code"><pre>()</pre></td>
                   </tr>
                 
                   <tr>
-                    <td>middleware_method</td>
-                    <td class="code"><pre>&lt;bound method CsrfViewMiddleware.process_view of &lt;django.middleware.csrf.CsrfViewMiddleware object at 0x7f0ccb20f828&gt;&gt;</pre></td>
+                    <td>callback_kwargs</td>
+                    <td class="code"><pre>{}</pre></td>
                   </tr>
                 
                   <tr>
                     <td>request</td>
                     <td class="code"><pre>(&#39;&lt;WSGIRequest\n&#39;
- &#39;path:/home/,\n&#39;
+ &#39;path:/api/v1/home/,\n&#39;
  &#39;GET:&lt;QueryDict: {}&gt;,\n&#39;
  &#39;POST:&lt;QueryDict: {}&gt;,\n&#39;
  &#39;COOKIES:{},\n&#39;
@@ -283,11 +248,11 @@
  &quot; &#39;APR_VERSION&#39;: &#39;1.5.2&#39;,\n&quot;
  &quot; &#39;CONTENT_LENGTH&#39;: &#39;&#39;,\n&quot;
  &quot; &#39;CONTENT_TYPE&#39;: &#39;text/plain&#39;,\n&quot;
- &quot; &#39;CSRF_COOKIE&#39;: &#39;UKCNZ3j9RAsz4dsC95pcq4FB4KVU923C&#39;,\n&quot;
+ &quot; &#39;CSRF_COOKIE&#39;: &#39;CvxLGzPlFKBEQwL4AZxQ8OU2pFdWvGLb&#39;,\n&quot;
  &quot; &#39;DJANGO_SETTINGS_MODULE&#39;: &#39;exp_server_code.settings&#39;,\n&quot;
  &quot; &#39;GATEWAY_INTERFACE&#39;: &#39;CGI/1.1&#39;,\n&quot;
  &quot; &#39;HOME&#39;: &#39;/root&#39;,\n&quot;
- &quot; &#39;HOSTNAME&#39;: &#39;6af1580c66f6&#39;,\n&quot;
+ &quot; &#39;HOSTNAME&#39;: &#39;e7652f0baf09&#39;,\n&quot;
  &quot; &#39;HTTP_ACCEPT&#39;: &#39;*/*&#39;,\n&quot;
  &quot; &#39;HTTP_HOST&#39;: &#39;localhost:8002&#39;,\n&quot;
  &quot; &#39;HTTP_USER_AGENT&#39;: &#39;curl/7.35.0&#39;,\n&quot;
@@ -302,18 +267,17 @@
  &quot; &#39;MODELS_HOST_ENV_PYTHONHASHSEED&#39;: &#39;random&#39;,\n&quot;
  &quot; &#39;MODELS_HOST_ENV_PYTHON_VERSION&#39;: &#39;3.4.3&#39;,\n&quot;
  &quot; &#39;MODELS_HOST_NAME&#39;: &#39;/exp/models_host&#39;,\n&quot;
- &quot; &#39;MODELS_HOST_PORT&#39;: &#39;tcp://172.17.0.48:8000&#39;,\n&quot;
- &quot; &#39;MODELS_HOST_PORT_8000_TCP&#39;: &#39;tcp://172.17.0.48:8000&#39;,\n&quot;
- &quot; &#39;MODELS_HOST_PORT_8000_TCP_ADDR&#39;: &#39;172.17.0.48&#39;,\n&quot;
+ &quot; &#39;MODELS_HOST_PORT&#39;: &#39;tcp://172.17.0.6:8000&#39;,\n&quot;
+ &quot; &#39;MODELS_HOST_PORT_8000_TCP&#39;: &#39;tcp://172.17.0.6:8000&#39;,\n&quot;
+ &quot; &#39;MODELS_HOST_PORT_8000_TCP_ADDR&#39;: &#39;172.17.0.6&#39;,\n&quot;
  &quot; &#39;MODELS_HOST_PORT_8000_TCP_PORT&#39;: &#39;8000&#39;,\n&quot;
  &quot; &#39;MODELS_HOST_PORT_8000_TCP_PROTO&#39;: &#39;tcp&#39;,\n&quot;
  &quot; &#39;MOD_WSGI_GROUP&#39;: &#39;www-data&#39;,\n&quot;
  &quot; &#39;MOD_WSGI_USER&#39;: &#39;www-data&#39;,\n&quot;
  &quot; &#39;MOD_WSGI_VERSION&#39;: &#39;4.4.13&#39;,\n&quot;
- &quot; &#39;OLDPWD&#39;: &#39;/app/exp_server_code&#39;,\n&quot;
  &quot; &#39;PATH&#39;: &quot;
  &quot;&#39;/usr/local/python/bin:/usr/local/apache/bin:/usr/local/python/bin:/usr/local/apache/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#39;,\n&quot;
- &quot; &#39;PATH_INFO&#39;: &#39;/home/&#39;,\n&quot;
+ &quot; &#39;PATH_INFO&#39;: &#39;/api/v1/home/&#39;,\n&quot;
  &quot; &#39;PWD&#39;: &#39;/app&#39;,\n&quot;
  &quot; &#39;PYTHONHASHSEED&#39;: &#39;random&#39;,\n&quot;
  &quot; &#39;PYTHON_VERSION&#39;: &#39;3.4.3&#39;,\n&quot;
@@ -323,7 +287,7 @@
  &quot; &#39;REQUEST_METHOD&#39;: &#39;GET&#39;,\n&quot;
  &quot; &#39;RUN_MAIN&#39;: &#39;true&#39;,\n&quot;
  &quot; &#39;SCRIPT_NAME&#39;: &#39;&#39;,\n&quot;
- &quot; &#39;SERVER_NAME&#39;: &#39;6af1580c66f6&#39;,\n&quot;
+ &quot; &#39;SERVER_NAME&#39;: &#39;e7652f0baf09&#39;,\n&quot;
  &quot; &#39;SERVER_PORT&#39;: &#39;8000&#39;,\n&quot;
  &quot; &#39;SERVER_PROTOCOL&#39;: &#39;HTTP/1.1&#39;,\n&quot;
  &quot; &#39;SERVER_SOFTWARE&#39;: &#39;WSGIServer/0.2&#39;,\n&quot;
@@ -334,12 +298,42 @@
  &quot; &#39;wsgi.errors&#39;: &lt;_io.TextIOWrapper name=&#39;&lt;stderr&gt;&#39; mode=&#39;w&#39; &quot;
  &quot;encoding=&#39;ANSI_X3.4-1968&#39;&gt;,\n&quot;
  &quot; &#39;wsgi.file_wrapper&#39;: &lt;class &#39;wsgiref.util.FileWrapper&#39;&gt;,\n&quot;
- &quot; &#39;wsgi.input&#39;: &lt;_io.BufferedReader name=5&gt;,\n&quot;
+ &quot; &#39;wsgi.input&#39;: &lt;_io.BufferedReader name=6&gt;,\n&quot;
  &quot; &#39;wsgi.multiprocess&#39;: False,\n&quot;
  &quot; &#39;wsgi.multithread&#39;: True,\n&quot;
  &quot; &#39;wsgi.run_once&#39;: False,\n&quot;
  &quot; &#39;wsgi.url_scheme&#39;: &#39;http&#39;,\n&quot;
  &quot; &#39;wsgi.version&#39;: (1, 0)}&gt;&quot;)</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>urlconf</td>
+                    <td class="code"><pre>&#39;exp_server_code.urls&#39;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>callback</td>
+                    <td class="code"><pre>&lt;function index at 0x7fa81b14b268&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.core.handlers.wsgi.WSGIHandler object at 0x7fa81d3907b8&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>wrapped_callback</td>
+                    <td class="code"><pre>&lt;function index at 0x7fa81b14b268&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>middleware_method</td>
+                    <td class="code"><pre>&lt;bound method CsrfViewMiddleware.process_view of &lt;django.middleware.csrf.CsrfViewMiddleware object at 0x7fa81bbe0630&gt;&gt;</pre></td>
+                  </tr>
+                
+                  <tr>
+                    <td>resolver_match</td>
+                    <td class="code"><pre>ResolverMatch(func=&lt;function index at 0x7fa81b14b268&gt;, args=(), kwargs={}, url_name=&#39;index&#39;, app_name=&#39;None&#39;, namespace=&#39;&#39;)</pre></td>
                   </tr>
                 
               </tbody>
@@ -354,7 +348,7 @@
 
   <div id="pastebinTraceback" class="pastebin">
     <input type="hidden" name="language" value="PythonConsole">
-    <input type="hidden" name="title" value="ValueError at /home/">
+    <input type="hidden" name="title" value="TypeError at /api/v1/home/">
     <input type="hidden" name="source" value="Django Dpaste Agent">
     <input type="hidden" name="poster" value="Django">
     <textarea name="content" id="traceback_area" cols="140" rows="25">
@@ -362,7 +356,7 @@ Environment:
 
 
 Request Method: GET
-Request URL: http://localhost:8002/home/
+Request URL: http://localhost:8002/api/v1/home/
 
 Django Version: 1.7.10
 Python Version: 3.4.3
@@ -385,10 +379,10 @@ Installed Middleware:
 
 Traceback:
 File "/usr/local/python/lib/python3.4/site-packages/django/core/handlers/base.py" in get_response
-  130.                                  % (callback.__module__, view_name))
+  111.                     response = wrapped_callback(request, *callback_args, **callback_kwargs)
 
-Exception Type: ValueError at /home/
-Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse object. It returned None instead.
+Exception Type: TypeError at /api/v1/home/
+Exception Value: index() missing 1 required positional argument: &#39;user_id&#39;
 </textarea>
   <br><br>
   <input type="submit" value="Share this traceback on a public Web site">
@@ -433,58 +427,8 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
     <tbody>
       
         <tr>
-          <td>MODELS_HOST_ENV_APR_UTIL_VERSION</td>
-          <td class="code"><pre>&#39;1.5.4&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>RUN_MAIN</td>
-          <td class="code"><pre>&#39;true&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_PORT_8000_TCP</td>
-          <td class="code"><pre>&#39;tcp://172.17.0.48:8000&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>wsgi.errors</td>
-          <td class="code"><pre>&lt;_io.TextIOWrapper name=&#39;&lt;stderr&gt;&#39; mode=&#39;w&#39; encoding=&#39;ANSI_X3.4-1968&#39;&gt;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE</td>
-          <td class="code"><pre>&#39;UKCNZ3j9RAsz4dsC95pcq4FB4KVU923C&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CONTENT_LENGTH</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>QUERY_STRING</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MOD_WSGI_USER</td>
-          <td class="code"><pre>&#39;www-data&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>PWD</td>
-          <td class="code"><pre>&#39;/app&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>HTTP_USER_AGENT</td>
-          <td class="code"><pre>&#39;curl/7.35.0&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_ENV_PYTHONHASHSEED</td>
-          <td class="code"><pre>&#39;random&#39;</pre></td>
+          <td>MODELS_HOST_PORT_8000_TCP_PORT</td>
+          <td class="code"><pre>&#39;8000&#39;</pre></td>
         </tr>
       
         <tr>
@@ -493,28 +437,18 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>wsgi.run_once</td>
-          <td class="code"><pre>False</pre></td>
+          <td>MODELS_HOST_ENV_PYTHONHASHSEED</td>
+          <td class="code"><pre>&#39;random&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>MODELS_HOST_PORT</td>
-          <td class="code"><pre>&#39;tcp://172.17.0.48:8000&#39;</pre></td>
+          <td>CONTENT_LENGTH</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>wsgi.version</td>
-          <td class="code"><pre>(1, 0)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_PORT_8000_TCP_ADDR</td>
-          <td class="code"><pre>&#39;172.17.0.48&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_NAME</td>
-          <td class="code"><pre>&#39;/exp/models_host&#39;</pre></td>
+          <td>HOME</td>
+          <td class="code"><pre>&#39;/root&#39;</pre></td>
         </tr>
       
         <tr>
@@ -523,32 +457,127 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>SERVER_PORT</td>
-          <td class="code"><pre>&#39;8000&#39;</pre></td>
-        </tr>
-      
-        <tr>
           <td>PYTHONHASHSEED</td>
           <td class="code"><pre>&#39;random&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>APR_UTIL_VERSION</td>
-          <td class="code"><pre>&#39;1.5.4&#39;</pre></td>
+          <td>MODELS_HOST_ENV_MOD_WSGI_USER</td>
+          <td class="code"><pre>&#39;www-data&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>GATEWAY_INTERFACE</td>
-          <td class="code"><pre>&#39;CGI/1.1&#39;</pre></td>
+          <td>MODELS_HOST_PORT_8000_TCP_ADDR</td>
+          <td class="code"><pre>&#39;172.17.0.6&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>PYTHON_VERSION</td>
-          <td class="code"><pre>&#39;3.4.3&#39;</pre></td>
+          <td>MODELS_HOST_PORT</td>
+          <td class="code"><pre>&#39;tcp://172.17.0.6:8000&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>QUERY_STRING</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MODELS_HOST_ENV_LANG</td>
+          <td class="code"><pre>&#39;en_US.UTF-7&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HTTP_USER_AGENT</td>
+          <td class="code"><pre>&#39;curl/7.35.0&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MODELS_HOST_ENV_APR_VERSION</td>
+          <td class="code"><pre>&#39;1.5.2&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MOD_WSGI_USER</td>
+          <td class="code"><pre>&#39;www-data&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_PORT</td>
+          <td class="code"><pre>&#39;8000&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MODELS_HOST_PORT_8000_TCP_PROTO</td>
+          <td class="code"><pre>&#39;tcp&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.errors</td>
+          <td class="code"><pre>&lt;_io.TextIOWrapper name=&#39;&lt;stderr&gt;&#39; mode=&#39;w&#39; encoding=&#39;ANSI_X3.4-1968&#39;&gt;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.multithread</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_SOFTWARE</td>
+          <td class="code"><pre>&#39;WSGIServer/0.2&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.multiprocess</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE</td>
+          <td class="code"><pre>&#39;CvxLGzPlFKBEQwL4AZxQ8OU2pFdWvGLb&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CONTENT_TYPE</td>
+          <td class="code"><pre>&#39;text/plain&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MODELS_HOST_NAME</td>
+          <td class="code"><pre>&#39;/exp/models_host&#39;</pre></td>
         </tr>
       
         <tr>
           <td>wsgi.file_wrapper</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>REMOTE_ADDR</td>
+          <td class="code"><pre>&#39;172.17.42.1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>REQUEST_METHOD</td>
+          <td class="code"><pre>&#39;GET&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MODELS_HOST_ENV_APACHE_VERSION</td>
+          <td class="code"><pre>&#39;2.4.16&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MODELS_HOST_ENV_MOD_WSGI_VERSION</td>
+          <td class="code"><pre>&#39;4.4.13&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANG</td>
+          <td class="code"><pre>&#39;en_US.UTF-7&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SCRIPT_NAME</td>
           <td class="code"><pre>&#39;&#39;</pre></td>
         </tr>
       
@@ -558,28 +587,23 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>SERVER_SOFTWARE</td>
-          <td class="code"><pre>&#39;WSGIServer/0.2&#39;</pre></td>
-        </tr>
-      
-        <tr>
           <td>_</td>
           <td class="code"><pre>&#39;/usr/local/python/bin/python&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>REQUEST_METHOD</td>
-          <td class="code"><pre>&#39;GET&#39;</pre></td>
+          <td>RUN_MAIN</td>
+          <td class="code"><pre>&#39;true&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>SERVER_PROTOCOL</td>
-          <td class="code"><pre>&#39;HTTP/1.1&#39;</pre></td>
+          <td>PATH</td>
+          <td class="code"><pre>&#39;/usr/local/python/bin:/usr/local/apache/bin:/usr/local/python/bin:/usr/local/apache/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>SERVER_NAME</td>
-          <td class="code"><pre>&#39;6af1580c66f6&#39;</pre></td>
+          <td>PYTHON_VERSION</td>
+          <td class="code"><pre>&#39;3.4.3&#39;</pre></td>
         </tr>
       
         <tr>
@@ -588,18 +612,83 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>MODELS_HOST_ENV_MOD_WSGI_GROUP</td>
-          <td class="code"><pre>&#39;www-data&#39;</pre></td>
+          <td>PATH_INFO</td>
+          <td class="code"><pre>&#39;/api/v1/home/&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>wsgi.multithread</td>
-          <td class="code"><pre>True</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_ENV_APR_VERSION</td>
+          <td>APR_VERSION</td>
           <td class="code"><pre>&#39;1.5.2&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.run_once</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>APACHE_VERSION</td>
+          <td class="code"><pre>&#39;2.4.16&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PWD</td>
+          <td class="code"><pre>&#39;/app&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_NAME</td>
+          <td class="code"><pre>&#39;e7652f0baf09&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MODELS_HOST_ENV_PYTHON_VERSION</td>
+          <td class="code"><pre>&#39;3.4.3&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>REMOTE_HOST</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.version</td>
+          <td class="code"><pre>(1, 0)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>wsgi.url_scheme</td>
+          <td class="code"><pre>&#39;http&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TERM</td>
+          <td class="code"><pre>&#39;xterm&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HTTP_HOST</td>
+          <td class="code"><pre>&#39;localhost:8002&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SERVER_PROTOCOL</td>
+          <td class="code"><pre>&#39;HTTP/1.1&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>APR_UTIL_VERSION</td>
+          <td class="code"><pre>&#39;1.5.4&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>HOSTNAME</td>
+          <td class="code"><pre>&#39;e7652f0baf09&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MODELS_HOST_ENV_APR_UTIL_VERSION</td>
+          <td class="code"><pre>&#39;1.5.4&#39;</pre></td>
         </tr>
       
         <tr>
@@ -609,127 +698,27 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
       
         <tr>
           <td>wsgi.input</td>
-          <td class="code"><pre>&lt;_io.BufferedReader name=5&gt;</pre></td>
+          <td class="code"><pre>&lt;_io.BufferedReader name=6&gt;</pre></td>
         </tr>
       
         <tr>
-          <td>MODELS_HOST_ENV_MOD_WSGI_VERSION</td>
-          <td class="code"><pre>&#39;4.4.13&#39;</pre></td>
+          <td>GATEWAY_INTERFACE</td>
+          <td class="code"><pre>&#39;CGI/1.1&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>OLDPWD</td>
-          <td class="code"><pre>&#39;/app/exp_server_code&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SCRIPT_NAME</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_PORT_8000_TCP_PROTO</td>
-          <td class="code"><pre>&#39;tcp&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CONTENT_TYPE</td>
-          <td class="code"><pre>&#39;text/plain&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>APR_VERSION</td>
-          <td class="code"><pre>&#39;1.5.2&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>PATH_INFO</td>
-          <td class="code"><pre>&#39;/home/&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_ENV_LANG</td>
-          <td class="code"><pre>&#39;en_US.UTF-7&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_PORT_8000_TCP_PORT</td>
-          <td class="code"><pre>&#39;8000&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>PATH</td>
-          <td class="code"><pre>&#39;/usr/local/python/bin:/usr/local/apache/bin:/usr/local/python/bin:/usr/local/apache/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_ENV_APACHE_VERSION</td>
-          <td class="code"><pre>&#39;2.4.16&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>REMOTE_HOST</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>APACHE_VERSION</td>
-          <td class="code"><pre>&#39;2.4.16&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>wsgi.multiprocess</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>REMOTE_ADDR</td>
-          <td class="code"><pre>&#39;172.17.42.1&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>HOSTNAME</td>
-          <td class="code"><pre>&#39;6af1580c66f6&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>HTTP_HOST</td>
-          <td class="code"><pre>&#39;localhost:8002&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>HOME</td>
-          <td class="code"><pre>&#39;/root&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>wsgi.url_scheme</td>
-          <td class="code"><pre>&#39;http&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LANG</td>
-          <td class="code"><pre>&#39;en_US.UTF-7&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TERM</td>
-          <td class="code"><pre>&#39;xterm&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_ENV_MOD_WSGI_USER</td>
-          <td class="code"><pre>&#39;www-data&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MODELS_HOST_ENV_PYTHON_VERSION</td>
-          <td class="code"><pre>&#39;3.4.3&#39;</pre></td>
+          <td>MODELS_HOST_PORT_8000_TCP</td>
+          <td class="code"><pre>&#39;tcp://172.17.0.6:8000&#39;</pre></td>
         </tr>
       
         <tr>
           <td>TZ</td>
           <td class="code"><pre>&#39;UTC&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MODELS_HOST_ENV_MOD_WSGI_GROUP</td>
+          <td class="code"><pre>&#39;www-data&#39;</pre></td>
         </tr>
       
     </tbody>
@@ -748,28 +737,457 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
     <tbody>
       
         <tr>
+          <td>SESSION_COOKIE_HTTPONLY</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ALLOWED_HOSTS</td>
+          <td class="code"><pre>[]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TIME_INPUT_FORMATS</td>
+          <td class="code"><pre>(&#39;%H:%M:%S&#39;, &#39;%H:%M:%S.%f&#39;, &#39;%H:%M&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>YEAR_MONTH_FORMAT</td>
+          <td class="code"><pre>&#39;F Y&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MESSAGE_STORAGE</td>
+          <td class="code"><pre>&#39;django.contrib.messages.storage.fallback.FallbackStorage&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHE_MIDDLEWARE_KEY_PREFIX</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>THOUSAND_SEPARATOR</td>
+          <td class="code"><pre>&#39;,&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATES</td>
+          <td class="code"><pre>[{&#39;APP_DIRS&#39;: True,
+  &#39;BACKEND&#39;: &#39;django.template.backends.django.DjangoTemplates&#39;,
+  &#39;DIRS&#39;: [],
+  &#39;OPTIONS&#39;: {&#39;context_processors&#39;: [&#39;django.template.context_processors.debug&#39;,
+                                     &#39;django.template.context_processors.request&#39;,
+                                     &#39;django.contrib.auth.context_processors.auth&#39;,
+                                     &#39;django.contrib.messages.context_processors.messages&#39;]}}]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_INDEX_TABLESPACE</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_BACKEND</td>
+          <td class="code"><pre>&#39;django.core.mail.backends.smtp.EmailBackend&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_FROM_EMAIL</td>
+          <td class="code"><pre>&#39;webmaster@localhost&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_LOADERS</td>
+          <td class="code"><pre>(&#39;django.template.loaders.filesystem.Loader&#39;,
+ &#39;django.template.loaders.app_directories.Loader&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TRANSACTIONS_MANAGED</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ABSOLUTE_URL_OVERRIDES</td>
+          <td class="code"><pre>{}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PROFANITIES_LIST</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TIME_ZONE</td>
+          <td class="code"><pre>&#39;UTC&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOCALE_PATHS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SIGNING_BACKEND</td>
+          <td class="code"><pre>&#39;django.core.signing.TimestampSigner&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_CODE</td>
+          <td class="code"><pre>&#39;en-us&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MEDIA_URL</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>INSTALLED_APPS</td>
+          <td class="code"><pre>(&#39;django.contrib.admin&#39;,
+ &#39;django.contrib.auth&#39;,
+ &#39;django.contrib.contenttypes&#39;,
+ &#39;django.contrib.sessions&#39;,
+ &#39;django.contrib.messages&#39;,
+ &#39;django.contrib.staticfiles&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_SECURE</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ROOT_URLCONF</td>
+          <td class="code"><pre>&#39;exp_server_code.urls&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_L10N</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SHORT_DATETIME_FORMAT</td>
+          <td class="code"><pre>&#39;m/d/Y P&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_DIRECTORY_PERMISSIONS</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>IGNORABLE_404_URLS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_COOKIE_DOMAIN</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>AUTH_USER_MODEL</td>
+          <td class="code"><pre>&#39;auth.User&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_TZ</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ADMIN_FOR</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_CONTENT_TYPE</td>
+          <td class="code"><pre>&#39;text/html&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_HTTPONLY</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MEDIA_ROOT</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_HANDLERS</td>
+          <td class="code"><pre>(&#39;django.core.files.uploadhandler.MemoryFileUploadHandler&#39;,
+ &#39;django.core.files.uploadhandler.TemporaryFileUploadHandler&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATE_FORMAT</td>
+          <td class="code"><pre>&#39;N j, Y&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>ALLOWED_INCLUDE_ROOTS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LANGUAGE_COOKIE_NAME</td>
+          <td class="code"><pre>&#39;django_language&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_I18N</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_HOST_USER</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_X_FORWARDED_HOST</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_DOMAIN</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>NUMBER_GROUPING</td>
+          <td class="code"><pre>0</pre></td>
+        </tr>
+      
+        <tr>
+          <td>USE_ETAGS</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATIC_URL</td>
+          <td class="code"><pre>&#39;/static/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_STRING_IF_INVALID</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_EXPIRE_AT_BROWSER_CLOSE</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_AGE</td>
+          <td class="code"><pre>31449600</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_FILE_PATH</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEBUG_PROPAGATE_EXCEPTIONS</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_DIRS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_DOMAIN</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DISALLOWED_USER_AGENTS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_SUBJECT_PREFIX</td>
+          <td class="code"><pre>&#39;[Django] &#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_TABLESPACE</td>
+          <td class="code"><pre>&#39;&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FILE_UPLOAD_MAX_MEMORY_SIZE</td>
+          <td class="code"><pre>2621440</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DATE_INPUT_FORMATS</td>
+          <td class="code"><pre>(&#39;%Y-%m-%d&#39;,
+ &#39;%m/%d/%Y&#39;,
+ &#39;%m/%d/%y&#39;,
+ &#39;%b %d %Y&#39;,
+ &#39;%b %d, %Y&#39;,
+ &#39;%d %b %Y&#39;,
+ &#39;%d %b, %Y&#39;,
+ &#39;%B %d %Y&#39;,
+ &#39;%B %d, %Y&#39;,
+ &#39;%d %B %Y&#39;,
+ &#39;%d %B, %Y&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATICFILES_STORAGE</td>
+          <td class="code"><pre>&#39;django.contrib.staticfiles.storage.StaticFilesStorage&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PREPEND_WWW</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>COMMENTS_ALLOW_PROFANITIES</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MANAGERS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEST_RUNNER</td>
+          <td class="code"><pre>&#39;django.test.runner.DiscoverRunner&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHE_MIDDLEWARE_ALIAS</td>
+          <td class="code"><pre>&#39;default&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SECURE_PROXY_SSL_HEADER</td>
+          <td class="code"><pre>None</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_PATH</td>
+          <td class="code"><pre>&#39;/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGOUT_URL</td>
+          <td class="code"><pre>&#39;/accounts/logout/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEBUG</td>
+          <td class="code"><pre>True</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SHORT_DATE_FORMAT</td>
+          <td class="code"><pre>&#39;m/d/Y&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATICFILES_DIRS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>AUTHENTICATION_BACKENDS</td>
+          <td class="code"><pre>(&#39;django.contrib.auth.backends.ModelBackend&#39;,)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_PATH</td>
+          <td class="code"><pre>&#39;/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_HOST</td>
+          <td class="code"><pre>&#39;localhost&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_FAILURE_VIEW</td>
+          <td class="code"><pre>&#39;django.views.csrf.csrf_failure&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>BASE_DIR</td>
+          <td class="code"><pre>&#39;/app&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>DEFAULT_CHARSET</td>
+          <td class="code"><pre>&#39;utf-8&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MIDDLEWARE_CLASSES</td>
+          <td class="code"><pre>(&#39;django.contrib.sessions.middleware.SessionMiddleware&#39;,
+ &#39;django.middleware.common.CommonMiddleware&#39;,
+ &#39;django.middleware.csrf.CsrfViewMiddleware&#39;,
+ &#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;,
+ &#39;django.contrib.auth.middleware.SessionAuthenticationMiddleware&#39;,
+ &#39;django.contrib.messages.middleware.MessageMiddleware&#39;,
+ &#39;django.middleware.clickjacking.XFrameOptionsMiddleware&#39;)</pre></td>
+        </tr>
+      
+        <tr>
+          <td>SESSION_COOKIE_AGE</td>
+          <td class="code"><pre>1209600</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHES</td>
+          <td class="code"><pre>{&#39;default&#39;: {&#39;BACKEND&#39;: &#39;django.core.cache.backends.locmem.LocMemCache&#39;}}</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CSRF_COOKIE_SECURE</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
           <td>ADMINS</td>
           <td class="code"><pre>()</pre></td>
         </tr>
       
         <tr>
-          <td>FILE_UPLOAD_TEMP_DIR</td>
+          <td>SESSION_SERIALIZER</td>
+          <td class="code"><pre>&#39;django.contrib.sessions.serializers.JSONSerializer&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FIXTURE_DIRS</td>
+          <td class="code"><pre>()</pre></td>
+        </tr>
+      
+        <tr>
+          <td>TEMPLATE_DEBUG</td>
+          <td class="code"><pre>False</pre></td>
+        </tr>
+      
+        <tr>
+          <td>STATIC_ROOT</td>
           <td class="code"><pre>None</pre></td>
         </tr>
       
         <tr>
-          <td>FILE_CHARSET</td>
-          <td class="code"><pre>&#39;utf-8&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LOGGING_CONFIG</td>
-          <td class="code"><pre>&#39;logging.config.dictConfig&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DATETIME_FORMAT</td>
-          <td class="code"><pre>&#39;N j, Y, P&#39;</pre></td>
+          <td>LANGUAGES_BIDI</td>
+          <td class="code"><pre>(&#39;he&#39;, &#39;ar&#39;, &#39;fa&#39;, &#39;ur&#39;)</pre></td>
         </tr>
       
         <tr>
@@ -789,38 +1207,13 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>LOGIN_URL</td>
-          <td class="code"><pre>&#39;/accounts/login/&#39;</pre></td>
+          <td>DECIMAL_SEPARATOR</td>
+          <td class="code"><pre>&#39;.&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>TIME_ZONE</td>
-          <td class="code"><pre>&#39;UTC&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_BACKEND</td>
-          <td class="code"><pre>&#39;django.core.mail.backends.smtp.EmailBackend&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEBUG_PROPAGATE_EXCEPTIONS</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>PASSWORD_HASHERS</td>
+          <td>PASSWORD_RESET_TIMEOUT_DAYS</td>
           <td class="code"><pre>&#39;********************&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_COOKIE_DOMAIN</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_EXCEPTION_REPORTER_FILTER</td>
-          <td class="code"><pre>&#39;django.views.debug.SafeExceptionReporterFilter&#39;</pre></td>
         </tr>
       
         <tr>
@@ -829,23 +1222,13 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>LANGUAGE_COOKIE_PATH</td>
-          <td class="code"><pre>&#39;/&#39;</pre></td>
+          <td>APPEND_SLASH</td>
+          <td class="code"><pre>True</pre></td>
         </tr>
       
         <tr>
-          <td>SESSION_COOKIE_SECURE</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DATE_FORMAT</td>
-          <td class="code"><pre>&#39;N j, Y&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>YEAR_MONTH_FORMAT</td>
-          <td class="code"><pre>&#39;F Y&#39;</pre></td>
+          <td>WSGI_APPLICATION</td>
+          <td class="code"><pre>&#39;exp_server_code.wsgi.application&#39;</pre></td>
         </tr>
       
         <tr>
@@ -854,113 +1237,14 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>STATICFILES_STORAGE</td>
-          <td class="code"><pre>&#39;django.contrib.staticfiles.storage.StaticFilesStorage&#39;</pre></td>
+          <td>SESSION_ENGINE</td>
+          <td class="code"><pre>&#39;django.contrib.sessions.backends.db&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>STATIC_URL</td>
-          <td class="code"><pre>&#39;/static/&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LANGUAGES_BIDI</td>
-          <td class="code"><pre>(&#39;he&#39;, &#39;ar&#39;, &#39;fa&#39;, &#39;ur&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>X_FRAME_OPTIONS</td>
-          <td class="code"><pre>&#39;SAMEORIGIN&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>AUTHENTICATION_BACKENDS</td>
-          <td class="code"><pre>(&#39;django.contrib.auth.backends.ModelBackend&#39;,)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_USE_SSL</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_INDEX_TABLESPACE</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_SECURE</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_AGE</td>
-          <td class="code"><pre>31449600</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TIME_FORMAT</td>
-          <td class="code"><pre>&#39;P&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_FILE_PATH</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SHORT_DATETIME_FORMAT</td>
-          <td class="code"><pre>&#39;m/d/Y P&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_PORT</td>
-          <td class="code"><pre>25</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CACHE_MIDDLEWARE_ALIAS</td>
-          <td class="code"><pre>&#39;default&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DATE_INPUT_FORMATS</td>
-          <td class="code"><pre>(&#39;%Y-%m-%d&#39;,
- &#39;%m/%d/%Y&#39;,
- &#39;%m/%d/%y&#39;,
- &#39;%b %d %Y&#39;,
- &#39;%b %d, %Y&#39;,
- &#39;%d %b %Y&#39;,
- &#39;%d %b, %Y&#39;,
- &#39;%B %d %Y&#39;,
- &#39;%B %d, %Y&#39;,
- &#39;%d %B %Y&#39;,
- &#39;%d %B, %Y&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MEDIA_ROOT</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>STATICFILES_DIRS</td>
-          <td class="code"><pre>()</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LANGUAGE_CODE</td>
-          <td class="code"><pre>&#39;en-us&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FIRST_DAY_OF_WEEK</td>
-          <td class="code"><pre>0</pre></td>
-        </tr>
-      
-        <tr>
-          <td>USE_ETAGS</td>
-          <td class="code"><pre>False</pre></td>
+          <td>STATICFILES_FINDERS</td>
+          <td class="code"><pre>(&#39;django.contrib.staticfiles.finders.FileSystemFinder&#39;,
+ &#39;django.contrib.staticfiles.finders.AppDirectoriesFinder&#39;)</pre></td>
         </tr>
       
         <tr>
@@ -988,169 +1272,8 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>MANAGERS</td>
-          <td class="code"><pre>()</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LOCALE_PATHS</td>
-          <td class="code"><pre>()</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FILE_UPLOAD_PERMISSIONS</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_SERIALIZER</td>
-          <td class="code"><pre>&#39;django.contrib.sessions.serializers.JSONSerializer&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DECIMAL_SEPARATOR</td>
-          <td class="code"><pre>&#39;.&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MONTH_DAY_FORMAT</td>
-          <td class="code"><pre>&#39;F j&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEST_NON_SERIALIZED_APPS</td>
-          <td class="code"><pre>[]</pre></td>
-        </tr>
-      
-        <tr>
-          <td>STATIC_ROOT</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
           <td>DATABASE_ROUTERS</td>
           <td class="code"><pre>[]</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SHORT_DATE_FORMAT</td>
-          <td class="code"><pre>&#39;m/d/Y&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_COOKIE_PATH</td>
-          <td class="code"><pre>&#39;/&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_TABLESPACE</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SECRET_KEY</td>
-          <td class="code"><pre>&#39;********************&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_FILE_STORAGE</td>
-          <td class="code"><pre>&#39;django.core.files.storage.FileSystemStorage&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FILE_UPLOAD_MAX_MEMORY_SIZE</td>
-          <td class="code"><pre>2621440</pre></td>
-        </tr>
-      
-        <tr>
-          <td>INSTALLED_APPS</td>
-          <td class="code"><pre>(&#39;django.contrib.admin&#39;,
- &#39;django.contrib.auth&#39;,
- &#39;django.contrib.contenttypes&#39;,
- &#39;django.contrib.sessions&#39;,
- &#39;django.contrib.messages&#39;,
- &#39;django.contrib.staticfiles&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEMPLATE_STRING_IF_INVALID</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SILENCED_SYSTEM_CHECKS</td>
-          <td class="code"><pre>[]</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEMPLATES</td>
-          <td class="code"><pre>[{&#39;APP_DIRS&#39;: True,
-  &#39;BACKEND&#39;: &#39;django.template.backends.django.DjangoTemplates&#39;,
-  &#39;DIRS&#39;: [],
-  &#39;OPTIONS&#39;: {&#39;context_processors&#39;: [&#39;django.template.context_processors.debug&#39;,
-                                     &#39;django.template.context_processors.request&#39;,
-                                     &#39;django.contrib.auth.context_processors.auth&#39;,
-                                     &#39;django.contrib.messages.context_processors.messages&#39;]}}]</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CACHES</td>
-          <td class="code"><pre>{&#39;default&#39;: {&#39;BACKEND&#39;: &#39;django.core.cache.backends.locmem.LocMemCache&#39;}}</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_COOKIE_HTTPONLY</td>
-          <td class="code"><pre>True</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CACHE_MIDDLEWARE_SECONDS</td>
-          <td class="code"><pre>600</pre></td>
-        </tr>
-      
-        <tr>
-          <td>USE_X_FORWARDED_HOST</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ALLOWED_HOSTS</td>
-          <td class="code"><pre>[]</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEMPLATE_DEBUG</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>THOUSAND_SEPARATOR</td>
-          <td class="code"><pre>&#39;,&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEFAULT_CONTENT_TYPE</td>
-          <td class="code"><pre>&#39;text/html&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_USE_TLS</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_HOST</td>
-          <td class="code"><pre>&#39;localhost&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ABSOLUTE_URL_OVERRIDES</td>
-          <td class="code"><pre>{}</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_CACHE_ALIAS</td>
-          <td class="code"><pre>&#39;default&#39;</pre></td>
         </tr>
       
         <tr>
@@ -1159,48 +1282,83 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>PASSWORD_RESET_TIMEOUT_DAYS</td>
+          <td>SILENCED_SYSTEM_CHECKS</td>
+          <td class="code"><pre>[]</pre></td>
+        </tr>
+      
+        <tr>
+          <td>CACHE_MIDDLEWARE_SECONDS</td>
+          <td class="code"><pre>600</pre></td>
+        </tr>
+      
+        <tr>
+          <td>MONTH_DAY_FORMAT</td>
+          <td class="code"><pre>&#39;F j&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>EMAIL_HOST_PASSWORD</td>
           <td class="code"><pre>&#39;********************&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>APPEND_SLASH</td>
-          <td class="code"><pre>True</pre></td>
+          <td>EMAIL_USE_TLS</td>
+          <td class="code"><pre>False</pre></td>
         </tr>
       
         <tr>
-          <td>DEFAULT_FROM_EMAIL</td>
-          <td class="code"><pre>&#39;webmaster@localhost&#39;</pre></td>
+          <td>DEFAULT_FILE_STORAGE</td>
+          <td class="code"><pre>&#39;django.core.files.storage.FileSystemStorage&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>DEFAULT_CHARSET</td>
-          <td class="code"><pre>&#39;utf-8&#39;</pre></td>
+          <td>SESSION_COOKIE_NAME</td>
+          <td class="code"><pre>&#39;sessionid&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>SECURE_PROXY_SSL_HEADER</td>
-          <td class="code"><pre>None</pre></td>
+          <td>DATETIME_FORMAT</td>
+          <td class="code"><pre>&#39;N j, Y, P&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>PROFANITIES_LIST</td>
+          <td>CSRF_COOKIE_NAME</td>
+          <td class="code"><pre>&#39;csrftoken&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>PASSWORD_HASHERS</td>
           <td class="code"><pre>&#39;********************&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>SETTINGS_MODULE</td>
-          <td class="code"><pre>&#39;exp_server_code.settings&#39;</pre></td>
+          <td>DEFAULT_EXCEPTION_REPORTER_FILTER</td>
+          <td class="code"><pre>&#39;django.views.debug.SafeExceptionReporterFilter&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>SESSION_COOKIE_AGE</td>
-          <td class="code"><pre>1209600</pre></td>
+          <td>X_FRAME_OPTIONS</td>
+          <td class="code"><pre>&#39;SAMEORIGIN&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>CACHE_MIDDLEWARE_KEY_PREFIX</td>
-          <td class="code"><pre>&#39;********************&#39;</pre></td>
+          <td>SESSION_CACHE_ALIAS</td>
+          <td class="code"><pre>&#39;default&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGIN_URL</td>
+          <td class="code"><pre>&#39;/accounts/login/&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGGING_CONFIG</td>
+          <td class="code"><pre>&#39;logging.config.dictConfig&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>FIRST_DAY_OF_WEEK</td>
+          <td class="code"><pre>0</pre></td>
         </tr>
       
         <tr>
@@ -1294,55 +1452,33 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>SESSION_COOKIE_NAME</td>
-          <td class="code"><pre>&#39;sessionid&#39;</pre></td>
-        </tr>
-      
-        <tr>
           <td>SERVER_EMAIL</td>
           <td class="code"><pre>&#39;root@localhost&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>EMAIL_HOST_PASSWORD</td>
-          <td class="code"><pre>&#39;********************&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>AUTH_USER_MODEL</td>
-          <td class="code"><pre>&#39;auth.User&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MIDDLEWARE_CLASSES</td>
-          <td class="code"><pre>(&#39;django.contrib.sessions.middleware.SessionMiddleware&#39;,
- &#39;django.middleware.common.CommonMiddleware&#39;,
- &#39;django.middleware.csrf.CsrfViewMiddleware&#39;,
- &#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;,
- &#39;django.contrib.auth.middleware.SessionAuthenticationMiddleware&#39;,
- &#39;django.contrib.messages.middleware.MessageMiddleware&#39;,
- &#39;django.middleware.clickjacking.XFrameOptionsMiddleware&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LANGUAGE_COOKIE_DOMAIN</td>
+          <td>LANGUAGE_COOKIE_AGE</td>
           <td class="code"><pre>None</pre></td>
         </tr>
       
         <tr>
-          <td>SESSION_EXPIRE_AT_BROWSER_CLOSE</td>
+          <td>EMAIL_USE_SSL</td>
           <td class="code"><pre>False</pre></td>
         </tr>
       
         <tr>
-          <td>FILE_UPLOAD_HANDLERS</td>
-          <td class="code"><pre>(&#39;django.core.files.uploadhandler.MemoryFileUploadHandler&#39;,
- &#39;django.core.files.uploadhandler.TemporaryFileUploadHandler&#39;)</pre></td>
+          <td>LANGUAGE_COOKIE_PATH</td>
+          <td class="code"><pre>&#39;/&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>FORCE_SCRIPT_NAME</td>
-          <td class="code"><pre>None</pre></td>
+          <td>SECRET_KEY</td>
+          <td class="code"><pre>&#39;********************&#39;</pre></td>
+        </tr>
+      
+        <tr>
+          <td>LOGIN_REDIRECT_URL</td>
+          <td class="code"><pre>&#39;/accounts/profile/&#39;</pre></td>
         </tr>
       
         <tr>
@@ -1357,79 +1493,17 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>USE_TZ</td>
-          <td class="code"><pre>True</pre></td>
+          <td>FORMAT_MODULE_PATH</td>
+          <td class="code"><pre>None</pre></td>
         </tr>
       
         <tr>
-          <td>FIXTURE_DIRS</td>
-          <td class="code"><pre>()</pre></td>
+          <td>SETTINGS_MODULE</td>
+          <td class="code"><pre>&#39;exp_server_code.settings&#39;</pre></td>
         </tr>
       
         <tr>
-          <td>USE_L10N</td>
-          <td class="code"><pre>True</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEMPLATE_LOADERS</td>
-          <td class="code"><pre>(&#39;django.template.loaders.filesystem.Loader&#39;,
- &#39;django.template.loaders.app_directories.Loader&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>BASE_DIR</td>
-          <td class="code"><pre>&#39;/app&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DISALLOWED_USER_AGENTS</td>
-          <td class="code"><pre>()</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ROOT_URLCONF</td>
-          <td class="code"><pre>&#39;exp_server_code.urls&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>IGNORABLE_404_URLS</td>
-          <td class="code"><pre>()</pre></td>
-        </tr>
-      
-        <tr>
-          <td>USE_I18N</td>
-          <td class="code"><pre>True</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LOGIN_REDIRECT_URL</td>
-          <td class="code"><pre>&#39;/accounts/profile/&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>WSGI_APPLICATION</td>
-          <td class="code"><pre>&#39;exp_server_code.wsgi.application&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>STATICFILES_FINDERS</td>
-          <td class="code"><pre>(&#39;django.contrib.staticfiles.finders.FileSystemFinder&#39;,
- &#39;django.contrib.staticfiles.finders.AppDirectoriesFinder&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SESSION_ENGINE</td>
-          <td class="code"><pre>&#39;django.contrib.sessions.backends.db&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ADMIN_FOR</td>
-          <td class="code"><pre>()</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FILE_UPLOAD_DIRECTORY_PERMISSIONS</td>
+          <td>FILE_UPLOAD_PERMISSIONS</td>
           <td class="code"><pre>None</pre></td>
         </tr>
       
@@ -1439,18 +1513,18 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>EMAIL_SUBJECT_PREFIX</td>
-          <td class="code"><pre>&#39;[Django] &#39;</pre></td>
+          <td>FILE_UPLOAD_TEMP_DIR</td>
+          <td class="code"><pre>None</pre></td>
         </tr>
       
         <tr>
-          <td>CSRF_COOKIE_PATH</td>
-          <td class="code"><pre>&#39;/&#39;</pre></td>
+          <td>FORCE_SCRIPT_NAME</td>
+          <td class="code"><pre>None</pre></td>
         </tr>
       
         <tr>
-          <td>TEMPLATE_DIRS</td>
-          <td class="code"><pre>()</pre></td>
+          <td>TIME_FORMAT</td>
+          <td class="code"><pre>&#39;P&#39;</pre></td>
         </tr>
       
         <tr>
@@ -1459,103 +1533,18 @@ Exception Value: The view homepage.views.index didn&#39;t return an HttpResponse
         </tr>
       
         <tr>
-          <td>COMMENTS_ALLOW_PROFANITIES</td>
-          <td class="code"><pre>False</pre></td>
+          <td>EMAIL_PORT</td>
+          <td class="code"><pre>25</pre></td>
         </tr>
       
         <tr>
-          <td>CSRF_FAILURE_VIEW</td>
-          <td class="code"><pre>&#39;django.views.csrf.csrf_failure&#39;</pre></td>
+          <td>TEST_NON_SERIALIZED_APPS</td>
+          <td class="code"><pre>[]</pre></td>
         </tr>
       
         <tr>
-          <td>LANGUAGE_COOKIE_NAME</td>
-          <td class="code"><pre>&#39;django_language&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TIME_INPUT_FORMATS</td>
-          <td class="code"><pre>(&#39;%H:%M:%S&#39;, &#39;%H:%M:%S.%f&#39;, &#39;%H:%M&#39;)</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LOGOUT_URL</td>
-          <td class="code"><pre>&#39;/accounts/logout/&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>SIGNING_BACKEND</td>
-          <td class="code"><pre>&#39;django.core.signing.TimestampSigner&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>EMAIL_HOST_USER</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>LANGUAGE_COOKIE_AGE</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TEST_RUNNER</td>
-          <td class="code"><pre>&#39;django.test.runner.DiscoverRunner&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>FORMAT_MODULE_PATH</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>ALLOWED_INCLUDE_ROOTS</td>
-          <td class="code"><pre>()</pre></td>
-        </tr>
-      
-        <tr>
-          <td>NUMBER_GROUPING</td>
-          <td class="code"><pre>0</pre></td>
-        </tr>
-      
-        <tr>
-          <td>PREPEND_WWW</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>DEBUG</td>
-          <td class="code"><pre>True</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MESSAGE_STORAGE</td>
-          <td class="code"><pre>&#39;django.contrib.messages.storage.fallback.FallbackStorage&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>TRANSACTIONS_MANAGED</td>
-          <td class="code"><pre>False</pre></td>
-        </tr>
-      
-        <tr>
-          <td>MEDIA_URL</td>
-          <td class="code"><pre>&#39;&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_DOMAIN</td>
-          <td class="code"><pre>None</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_NAME</td>
-          <td class="code"><pre>&#39;csrftoken&#39;</pre></td>
-        </tr>
-      
-        <tr>
-          <td>CSRF_COOKIE_HTTPONLY</td>
-          <td class="code"><pre>False</pre></td>
+          <td>FILE_CHARSET</td>
+          <td class="code"><pre>&#39;utf-8&#39;</pre></td>
         </tr>
       
     </tbody>
