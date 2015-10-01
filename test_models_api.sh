@@ -15,7 +15,7 @@
 curl localhost:8001/api/v1/create/user/ --data "username=test_username&password=test_password&firstname=John&lastname=Doe" 
 echo "";echo "" 
 
-curl localhost:8001/api/v1/get/user/1/  
+curl localhost:8001/api/v1/get/user/1/ > t.html && firefox *ml 
 echo "";echo ""
 
 curl localhost:8001/api/v1/update/user/1/ --data "password=updated_password&firstname=Jane&lastname=Philips"  

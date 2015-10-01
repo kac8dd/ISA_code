@@ -218,7 +218,7 @@ def get_purchase(request, purchase_id):
         except:
                 return _error_response(request,'purchase not found')
         purchase.date = str(purchase.date) 
-        return _success_response(request, json.dumps(model_to_dict(purchase)))
+        return JsonResponse(model_to_dict(purchase))
 	
 def get_latest(request, count):
 	response = {} 
