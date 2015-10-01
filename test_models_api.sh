@@ -10,7 +10,7 @@
 ## If one of the curl commands below is not working properly
 ## 	append the command with " > response.html && firefox response.html" 
 ##	then rerun the script and observe the debug output in firefox
-e############################################################# 
+############################################################# 
 curl localhost:8001/api/v1/create/event/ --data "name=test_event_1&description=test_description&start_time=2015-12-03&location=test_location"
  
 echo "";echo "" 
