@@ -66,8 +66,9 @@ API FORMAT (v1)
         /api/v1/update/user/(?P<event_id>\d+)/ 
         /api/v1/update/purchase(?<purchase_id\d+)
 	
-   Looking up an object
-	/api/v1/get/event/(?P<event_id>\d+)/$$'
+   Looking up object
+	/api/v1/get/event/(?P<event_id>\d+)/
         /api/v1/get/ticket/(?P<ticket_id>\d+)/
         /api/v1/get/user/(?P<user_id>\d+)/
-	/api/v1/get/purchase/(?P<purchase_id>\d+)/		
+	/api/v1/get/purchase/(?P<purchase_id>\d+)/	
+	/api/v1/get/latest/(?P<count>[0-50]\d+)/	
