@@ -1,5 +1,5 @@
 """
-Django settings for models_api project.
+Django settings for models_server_code project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -49,9 +49,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'models_api.urls'
+ROOT_URLCONF = 'models_server_code.urls'
 
-WSGI_APPLICATION = 'models_api.wsgi.application'
+WSGI_APPLICATION = 'models_server_code.wsgi.application'
 
 
 # Database
