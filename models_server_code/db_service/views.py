@@ -34,7 +34,8 @@ def create_event(request):
 	description = request.POST['description']
 	start_time = request.POST['start_time']
 	location = request.POST['location']
-	event = Event(name=name,description=description,start_time=start_time,location=location)
+	creator_input = UserProfile.objects.get(pk=request.POST['creator_id'])
+	event = Event(name=name,description=description,start_time=start_time,location=location,creator=creator_input)
 	try:
 		event.save()
 	except IntegrityError:
@@ -79,7 +80,9 @@ def get_event(request,event_id):
 	except:
 		return _error_response(request,'event not found')
 
-	return _success_response(request,{'event_id':event.id,'name':event.name,'description':event.description,'start_time':event.start_time,'pub_date':event.pub_date,'location':event.location})
+	event.start_time = str(event.start_time)
+	event.pub_date = str(event.pub_date)
+	return JsonResponse(model_to_dict(event))
 
 @csrf_exempt
 def create_ticket(request):
@@ -132,7 +135,8 @@ def get_ticket(request,ticket_id):
 	except:
 		return _error_response(request,'ticket not found')
 
-	return _success_response(request,{'ticket_id':ticket.id,'name':ticket.name,'price':ticket.price,'event':ticket.event.name,'amount':ticket.amount})
+	return JsonResponse(model_to_dict(ticket))
+
 
 @csrf_exempt
 def create_user(request):
@@ -191,7 +195,7 @@ def get_user(request,user_id):
 	except:
 		return _error_response(request,'user not found')
 
-	return _success_response(request,{'user_id':user_p.id,'username':user.username,'first_name':user_p.first_name,'last_name':user_p.last_name})
+	return JsonResponse(model_to_dict(user_p))
 
 @csrf_exempt
 def create_purchase(request):
@@ -213,21 +217,21 @@ def get_purchase(request, purchase_id):
                 purchase = Purchase.objects.get(pk=purchase_id)
         except:
                 return _error_response(request,'purchase not found')
-
-        return _success_response(request,{'purchase_id':purchase_id,'user_id':purchase.user_profile.id, 'ticket_id':purchase.ticket.id,'date':purchase.date})
-
+        purchase.date = str(purchase.date) 
+        return _success_response(request, json.dumps(model_to_dict(purchase)))
+	
 def get_latest(request, count):
-	response = ""
+	response = {} 
 	x = 0
 	current_event_id = Event.objects.latest('pub_date').id 
 	while x < int(count):
 		event = Event.objects.get(pk=current_event_id)
 		event.pub_date = str(event.pub_date) 
 		event.start_time = str(event.start_time)
-		response += json.dumps(model_to_dict(event))+"-" 
+		response.update(model_to_dict(event)) 
 		current_event_id -= 1
 		x += 1 
-	return _success_response(request, response)	
+	return _success_response(request, json.dumps(response))	
  
 def _error_response(request,error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
