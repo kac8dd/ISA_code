@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #############################################################
-## this script does the following for each type of model
+## This script does the following for each type of model
 ## 	create new object and save to the database 
 ## 	get that object back from the database
 ## 	update that object and save to the database
