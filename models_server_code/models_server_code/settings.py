@@ -63,7 +63,7 @@ DATABASES = {
           'NAME': 'cs4501',
           'USER': 'www',
           'PASSWORD': 'password',
-          'HOST': 'db',
+          'HOST': 'db_host',
           }
       }
 
