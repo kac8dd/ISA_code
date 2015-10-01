@@ -20,7 +20,7 @@ from urllib.error import HTTPError
 from django.views.decorators.csrf import csrf_exempt
 
 
-def index(request, user_id):
+def index(request):
 	try:
 		with urllib.request.urlopen("http://models_host:8000/api/v1/get/latest/5/") as url:
 			latest_events_json = url.read()
