@@ -53,5 +53,5 @@ echo "";echo ""
 curl localhost:8001/api/v1/create/purchase/ --data "user_id=1&ticket_id=1" 
 echo "";echo ""
 
-curl localhost:8001/api/v1/get/purchase/1/ > response.html && firefox response.html
+curl localhost:8001/api/v1/get/purchase/1/ 
  
