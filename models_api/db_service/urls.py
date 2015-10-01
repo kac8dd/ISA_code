@@ -11,12 +11,12 @@ urlpatterns = patterns('',
 	
 	url(r'^api/v1/update/event/(?P<event_id>\d+)/$',views.update_event,name='updateEvent'),
 	url(r'^api/v1/update/ticket/(?P<ticket_id>\d+)/$',views.update_ticket,name='updateTicket'),
-	url(r'^api/v1/update/user/(?P<event_id>\d+)/',views.update_user,name='updateUser'),
-	url(r'^api/v1/update/purchase/(?P<purchase_id>\d+)/',views.update_purchase,name='updatePurchase'),
+	url(r'^api/v1/update/user/(?P<user_id>\d+)/',views.update_user,name='updateUser'),
+	#url(r'^api/v1/update/purchase/(?P<purchase_id>\d+)/',views.update_purchase,name='updatePurchase'),
 	
-	url(r'^api/v1/get/event/(?P<event_id>\d+)/$$',views.event,name='event'),
-	url(r'^api/v1/get/ticket/(?P<ticket_id>\d+)/$',views.ticket,name='ticket'),
-	url(r'^api/v1/get/user/(?P<user_id>\d+)/$',views.user,name='user'),
-	url(r'^api/v1/get/purchase/(?P<purchase_id>\d+)/$',views.user,name='user'),	
+	url(r'^api/v1/get/event/(?P<event_id>\d+)/$',views.get_event,name='event'),
+	url(r'^api/v1/get/ticket/(?P<ticket_id>\d+)/$',views.get_ticket,name='ticket'),
+	url(r'^api/v1/get/user/(?P<user_id>\d+)/$',views.get_user,name='user'),
+	url(r'^api/v1/get/purchase/(?P<purchase_id>\d+)/$',views.get_purchase,name='user'),	
 	
 )

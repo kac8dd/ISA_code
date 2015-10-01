@@ -53,17 +53,17 @@ MODELS
 		
 API FORMAT (v1) 
 	
-   Object Creation:
-	
-        /api/v1/create/event/
+   Object Creation:	POST data fields are saved as the new model's fields	
+        
+	/api/v1/create/event/ 
         /api/v1/create/ticket/
         /api/v1/create/user/
 	/api/vi/create/purchase/
         
    Updating an objects fields:
-	/api/v1/update/event/(?P<event_id>\d+)
-        /api/v1/update/ticket/(?P<ticket_id>\d+)
-        /api/v1/update/user/(?P<event_id>\d+)
+	/api/v1/update/event/(?P<event_id>\d+)/ 
+        /api/v1/update/ticket/(?P<ticket_id>\d+)/ 
+        /api/v1/update/user/(?P<event_id>\d+)/ 
         /api/v1/update/purchase(?<purchase_id\d+)
 	
    Looking up an object
