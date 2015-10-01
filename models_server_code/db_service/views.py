@@ -5,6 +5,7 @@ from db_service.models import UserProfile, Event, Ticket, Purchase
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.core.urlresolvers import reverse
+from django.forms.models import model_to_dict
 
 # authenticate
 from django.contrib.auth import authenticate
@@ -18,6 +19,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 #database transactions
 from django.db import IntegrityError, transaction
+
+import json
 
 # Create your views here.
 def index(request):
@@ -213,8 +216,19 @@ def get_purchase(request, purchase_id):
 
         return _success_response(request,{'purchase_id':purchase_id,'user_id':purchase.user_profile.id, 'ticket_id':purchase.ticket.id,'date':purchase.date})
 
-
-
+def get_latest(request, count):
+	response = ""
+	x = 0
+	current_event_id = Event.objects.latest('pub_date').id 
+	while x < int(count):
+		event = Event.objects.get(pk=current_event_id)
+		event.pub_date = str(event.pub_date) 
+		event.start_time = str(event.start_time)
+		response += json.dumps(model_to_dict(event))+"-" 
+		current_event_id -= 1
+		x += 1 
+	return _success_response(request, response)	
+ 
 def _error_response(request,error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
 

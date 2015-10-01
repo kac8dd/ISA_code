@@ -17,6 +17,6 @@ urlpatterns = patterns('',
 	url(r'^api/v1/get/event/(?P<event_id>\d+)/$',views.get_event,name='event'),
 	url(r'^api/v1/get/ticket/(?P<ticket_id>\d+)/$',views.get_ticket,name='ticket'),
 	url(r'^api/v1/get/user/(?P<user_id>\d+)/$',views.get_user,name='user'),
-	url(r'^api/v1/get/purchase/(?P<purchase_id>\d+)/$',views.get_purchase,name='user'),	
-	
+	url(r'^api/v1/get/purchase/(?P<purchase_id>\d+)/$',views.get_purchase,name='purchase'), 
+	url(r'^api/v1/get/latest/(?P<count>[1-50])/$', views.get_latest,name='latest'),	
 )
