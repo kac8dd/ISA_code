@@ -24,7 +24,7 @@ import json
 
 # Create your views here.
 def index(request):
-	return HttpResponse('Hello!')
+	return HttpResponse('This is the models api.')
 
 @csrf_exempt
 def create_event(request):
@@ -38,7 +38,7 @@ def create_event(request):
 	event = Event(name=name,description=description,start_time=start_time,location=location,creator=creator_input)
 	try:
 		event.save()
-	except IntegrityError:
+	except ProgrammingError:
 		return _error_response(request,'db error, unable to save event')
 
 	return _success_response(request,{'Event successfully created->event_id':event.id})
@@ -228,7 +228,8 @@ def get_latest(request, count):
 		event = Event.objects.get(pk=current_event_id)
 		event.pub_date = str(event.pub_date) 
 		event.start_time = str(event.start_time)
-		response.update(model_to_dict(event)) 
+		eventdict = {current_event_id: model_to_dict(event)}
+		response.update(eventdict) 
 		current_event_id -= 1
 		x += 1 
 	return _success_response(request, json.dumps(response))	

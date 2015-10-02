@@ -21,7 +21,7 @@ class Event(models.Model):
 	start_time = models.DateTimeField(default=datetime.datetime.today)
 	pub_date = models.DateTimeField(default=datetime.datetime.today)
 	location = models.CharField(max_length=1000)
-	creator = models.OneToOneField(UserProfile)
+	creator = models.ForeignKey(UserProfile)
 	def __str__(self):
 		return self.name
 
