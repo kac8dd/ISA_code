@@ -23,7 +23,7 @@ class Event(models.Model):
 	location = models.CharField(max_length=1000)
 	creator = models.ForeignKey(UserProfile)
 	#ticket = models.OneToOneField(Ticket, default=none)
-	
+
 	def __str__(self):
 		return self.name
 
