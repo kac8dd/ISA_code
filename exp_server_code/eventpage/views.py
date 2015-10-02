@@ -18,6 +18,7 @@ from urllib.error import HTTPError
 #these are not front faceing POSTs so we don't need csrf tokens
 from django.views.decorators.csrf import csrf_exempt
 
+import json
 
 def index(request):
 	print("index")
@@ -25,7 +26,8 @@ def index(request):
 def get_event_page_json(request, event_id):
 	try:
 		with urllib.request.urlopen("http://models_host:8000/api/v1/get/event/"+event_id+"/") as url:
-			event_page_json = url.read()
+			str_response = url.read().decode('utf-8') 
+			event_page_json = json.loads(str_response) 
 	except HTTPError:
 		return _error_response(request, 'unable to get http response from models api')
-	return HttpResponse(event_page_json)	
+	return JsonResponse(event_page_json)	
