@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from django.template import loader, Context
+
 # response
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
@@ -27,6 +29,12 @@ def index(request):
 	
 	str_response = urllib.request.urlopen("http://exp_host:8000/api/v1/home/").readall().decode('utf-8')
 	json_fields = json.loads(str_response)
+	#print(json_fields) 
+	
+	t = loader.get_template('index.html')
+	c = Context({ 'object_list': json_fields })
+ 
+	return HttpResponse(t.render(c))
 	d = json.dumps(json_fields)
 	return render_to_response('index.html',{'dict':d})
 
