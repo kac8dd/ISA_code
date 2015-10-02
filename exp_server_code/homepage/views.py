@@ -22,39 +22,44 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def index(request):
-	num = 5	
+	num = 5
+
 	try:
 		#make api call to models layer for the latest events
 		with urllib.request.urlopen("http://models_host:8000/api/v1/get/latest/"+str(num)+"/") as url:
 			#decode the response
 			str_response = url.readall().decode('utf-8') 
-			
 			#convert into json/python dictionary
 			latest_events_json = json.loads(str_response) 
 			
 			#get the information about the creator of each event and craft a response	
-			x = 0
 			response = {}
-	
-			while x < num:
-				#get an event
-				current_event = latest_events_json[str(x)] 
-				
-				#querry the db for info on its creator
+			for index, current_event in latest_events_json.items():
+
 				str_response = urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(current_event['creator'])+"/").readall().decode('utf-8') 
-				
-				#convert the response to json/dict
 				current_creator= json.loads(str_response)
-				#event_creator_dict = {} 
 				response[str(current_event)] = str(current_creator)
+			# while x < num:
+			# 	#get an event
+			# 	current_event = latest_events_json[str(x)] 
+				
+			# 	#querry the db for info on its creator
+			# 	str_response = urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(current_event['creator'])+"/").readall().decode('utf-8') 
+				
+			# 	#convert the response to json/dict
+			# 	current_creator= json.loads(str_response)
+			# 	#event_creator_dict = {} 
+			# 	response[str(current_event)] = str(current_creator)
 			
-				#querry the db for its ticketing info
-				#str_response = urllib.request.urlopen("http://models_host:8000/api/v1/get/ticket/"+str(current_event['ticket'])+"/").readall().decode('utf-8')
+			# 	#querry the db for its ticketing info
+			# 	#str_response = urllib.request.urlopen("http://models_host:8000/api/v1/get/ticket/"+str(current_event['ticket'])+"/").readall().decode('utf-8')
 	
 
-				x=x+1	
+			# 	x=x+1	
 	except HTTPError:
 		return _error_response(request, 'unable to get http response from database')
 
 	return JsonResponse(response)
 
+def _error_response(request,error_msg):
+	return JsonResponse({'ok': False, 'error': error_msg})

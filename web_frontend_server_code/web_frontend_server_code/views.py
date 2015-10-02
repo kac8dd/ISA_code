@@ -27,6 +27,6 @@ def index(request):
 	
 	str_response = urllib.request.urlopen("http://exp_host:8000/api/v1/home/").readall().decode('utf-8')
 	json_fields = json.loads(str_response)
- 
-	return JsonResponse(json_fields)
+	d = json.dumps(json_fields)
+	return render_to_response('index.html',{'dict':d})
 
