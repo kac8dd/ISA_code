@@ -34,13 +34,17 @@ def create_event(request):
 	description = request.POST['description']
 	start_time = request.POST['start_time']
 	location = request.POST['location']
-	creator_input = UserProfile.objects.get(pk=request.POST['creator_id'])
-	event = Event(name=name,description=description,start_time=start_time,location=location,creator=creator_input)
+	creator_id = request.POST['creator_id']
+	
+	creator_profile = UserProfile.objects.get(pk=creator_id)
+	event = Event(name=name,description=description,start_time=start_time,location=location,creator=creator_profile)
 	try:
 		event.save()
 	except IntegrityError:
+		print("failed to save")
 		return _error_response(request,'db error, unable to save event')
 
+	print("new event, id = "+str(event.id))
 	return _success_response(request,{'Event successfully created->event_id':event.id})
 
 @csrf_exempt
@@ -150,11 +154,13 @@ def create_user(request):
 	try:
 		user.save()
 	except:
+		print("failed to save user")
 		return _error_response(request,'db error')
 	user_profile = UserProfile(first_name=firstname_input,last_name=lastname_input,user=user)
 	try:
 		user_profile.save()
 	except:
+		print("failed to save User")
 		return _error_response(request,'db error')
 	return _success_response(request,{'user successfully created->user_id':user_profile.id})
 
@@ -224,6 +230,7 @@ def get_latest(request, count):
 	response = {} 
 	x = 0
 	current_event_id = Event.objects.latest('pub_date').id 
+	print("current_event_id = "+str(current_event_id))
 	while x < int(count):
 		event = Event.objects.get(pk=current_event_id)
 		event.pub_date = str(event.pub_date) 
@@ -231,7 +238,7 @@ def get_latest(request, count):
 		response.update(model_to_dict(event)) 
 		current_event_id -= 1
 		x += 1 
-	return _success_response(request, json.dumps(response))	
+	return JsonResponse(response)	
  
 def _error_response(request,error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
