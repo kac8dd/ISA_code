@@ -228,23 +228,22 @@ def get_purchase(request, purchase_id):
 	
 def get_latest(request, count):
 	response = {} 
-	text_response =""
 	x = 0
 	current_event_id = Event.objects.latest('pub_date').id 
 	
-	while x < int(count)*2:
+	while x < int(count):
 		print("current_event_id = "+str(current_event_id))
 		event = Event.objects.get(pk=current_event_id)
 		event.pub_date = str(event.pub_date) 
 		event.start_time = str(event.start_time)
 		creator = UserProfile.objects.get(pk=event.creator.id)
 		response[x]=model_to_dict(event) 
-		response[x+1]=model_to_dict(creator)
-		text_response += json.dumps(model_to_dict(event))
+		#response[x+1]=model_to_dict(creator)
 
 		current_event_id -= 1
-		x += 2 
-	print(str(response))
+		#x += 2 
+		x += 1	
+	#print(str(response))
 	return JsonResponse(response)	
  
 def _error_response(request,error_msg):
