@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+	'web_frontend_server_code', 
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,10 +53,16 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'web_frontend_server_code.urls'
 
+
+TEMPLATE_DIRS = (
+    '/app/templates/',
+)
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': '/app/templates/',
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
