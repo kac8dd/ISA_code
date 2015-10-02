@@ -223,6 +223,7 @@ def get_purchase(request, purchase_id):
         return JsonResponse(model_to_dict(purchase))
 	
 def get_latest(request, count):
+	count = min(int(count), len(Event.objects.all()))
 	response = {} 
 	x = 0
 	current_event_id = Event.objects.latest('pub_date').id 

@@ -61,9 +61,9 @@ DATABASES = {
           'default': {
           'ENGINE': 'mysql.connector.django',
           'NAME': 'cs4501',
-          'USER': 'www',
-          'PASSWORD': 'm1y2s3q4l',
-          'HOST': 'db_host',
+          'USER': 'zeizyy',
+          'PASSWORD': '1994zeizyy',
+          'HOST': 'db',
           }
       }
 

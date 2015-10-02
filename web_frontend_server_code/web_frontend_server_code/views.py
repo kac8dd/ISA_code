@@ -29,6 +29,8 @@ def index(request):
 	
 	str_response = urllib.request.urlopen("http://exp_host:8000/api/v1/home/").readall().decode('utf-8')
 	json_fields = json.loads(str_response)
+	#print(json_fields) 
+	
 	t = loader.get_template('index.html')
 	c = Context({ 'object_list': json_fields })
  

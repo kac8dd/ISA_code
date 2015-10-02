@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Event',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=300)),
                 ('description', models.CharField(max_length=5000)),
                 ('start_time', models.DateTimeField(default=datetime.datetime.today)),
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Purchase',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('date', models.DateTimeField(default=datetime.datetime.today)),
             ],
             options={
@@ -40,8 +40,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Ticket',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=300)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('price', models.FloatField()),
                 ('amount', models.IntegerField()),
                 ('event', models.ForeignKey(to='db_service.Event')),
@@ -53,7 +52,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserProfile',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('first_name', models.CharField(max_length=200)),
                 ('last_name', models.CharField(max_length=200)),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
@@ -72,6 +71,12 @@ class Migration(migrations.Migration):
             model_name='purchase',
             name='user_profile',
             field=models.OneToOneField(to='db_service.UserProfile'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='event',
+            name='creator',
+            field=models.ForeignKey(to='db_service.UserProfile'),
             preserve_default=True,
         ),
     ]
