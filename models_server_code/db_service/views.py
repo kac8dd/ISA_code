@@ -92,16 +92,15 @@ def get_event(request,event_id):
 def create_ticket(request):
 	if request.method != 'POST':
 		return _error_response('must make POST request')
-	name = request.POST['name']
 	price = request.POST['price']
 	event_id = request.POST['event_id']
 	amount = request.POST['amount']
 	event = Event.objects.get(pk=event_id)
-	ticket = Ticket(name=name,price=price,event=event,amount=amount)
+	ticket = Ticket(price=price,event=event,amount=amount)
 	try:
 		ticket.save()
 	except db.Error:
-		return _error_response(request,'db error')
+		return _error_response(request,'db error, unable to save ticket')
 	return _success_response(request,{'ticket successfully created->ticket_id':ticket.id})
 
 @csrf_exempt
@@ -114,9 +113,6 @@ def update_ticket(request,ticket_id):
 		return _error_response(request,'ticket not found')
 
 	changed = False
-	if 'name' in request.POST:
-		ticket.name = request.POST['name']
-		changed = True
 	if 'price' in request.POST:
 		ticket.price = request.POST['price']
 		changed = True
@@ -128,7 +124,7 @@ def update_ticket(request,ticket_id):
 		return _error_response(request,'no field updated')
 	ticket.save()
 
-	return _success_response(request,'Event successfully updated')
+	return _success_response(request,'Ticket successfully updated')
 
 @csrf_exempt
 def get_ticket(request,ticket_id):
@@ -155,13 +151,13 @@ def create_user(request):
 		user.save()
 	except:
 		print("failed to save user")
-		return _error_response(request,'db error')
+		return _error_response(request,'db error, unable to save User')
 	user_profile = UserProfile(first_name=firstname_input,last_name=lastname_input,user=user)
 	try:
 		user_profile.save()
 	except:
 		print("failed to save User")
-		return _error_response(request,'db error')
+		return _error_response(request,'db error, unable to save User')
 	return _success_response(request,{'user successfully created->user_id':user_profile.id})
 
 @csrf_exempt
@@ -213,7 +209,7 @@ def create_purchase(request):
         try:
                 purchase.save()
         except db.Error:
-                return _error_response(request,'db error')
+                return _error_response(request,'db error, unable to save purchase')
         return _success_response(request,{'purchase successfully created->purchase_id':purchase.id})
 
 def get_purchase(request, purchase_id):

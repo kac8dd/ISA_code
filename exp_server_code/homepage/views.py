@@ -37,10 +37,21 @@ def index(request):
 			response = {}
 	
 			while x < num:
+				#get an event
 				current_event = latest_events_json[str(x)] 
+				
+				#querry the db for info on its creator
 				str_response = urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(current_event['creator'])+"/").readall().decode('utf-8') 
+				
+				#convert the response to json/dict
 				current_creator= json.loads(str_response)
+				#event_creator_dict = {} 
 				response[str(current_event)] = str(current_creator)
+			
+				#querry the db for its ticketing info
+				#str_response = urllib.request.urlopen("http://models_host:8000/api/v1/get/ticket/"+str(current_event['ticket'])+"/").readall().decode('utf-8')
+	
+
 				x=x+1	
 	except HTTPError:
 		return _error_response(request, 'unable to get http response from database')
