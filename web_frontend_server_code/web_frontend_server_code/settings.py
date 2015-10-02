@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'events',
+    'front_end',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -48,10 +49,15 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+<<<<<<< HEAD
+=======
+    #'django.middleware.security.SecurityMiddleware',
+>>>>>>> e2dfb1c8e1ce26dc56ef0e054fc32371b24c4afd
 )
 
 ROOT_URLCONF = 'web_frontend_server_code.urls'
 
+<<<<<<< HEAD
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -67,6 +73,8 @@ TEMPLATES = [
         },
     },
 ]
+=======
+>>>>>>> e2dfb1c8e1ce26dc56ef0e054fc32371b24c4afd
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -81,12 +89,7 @@ WSGI_APPLICATION = 'web_frontend_server_code.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+
 
 
 # Internationalization
@@ -107,3 +110,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))

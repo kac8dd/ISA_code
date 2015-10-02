@@ -22,17 +22,19 @@ class Event(models.Model):
 	pub_date = models.DateTimeField(default=datetime.datetime.today)
 	location = models.CharField(max_length=1000)
 	creator = models.ForeignKey(UserProfile)
+	#ticket = models.OneToOneField(Ticket, default=none)
+
 	def __str__(self):
 		return self.name
 
 class Ticket(models.Model):
-	name = models.CharField(max_length=300)
+	
 	price = models.FloatField()
 	event = models.ForeignKey(Event)
 	amount = models.IntegerField()
-
+	
 	def __str__(self):
-		return self.event.name+" - "+self.name
+		return self.event.name+" - "+self.id 
 
 class Purchase(models.Model):
 	user_profile = models.OneToOneField(UserProfile)

@@ -58,14 +58,14 @@ WSGI_APPLICATION = 'models_server_code.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
-          'default': {
-          'ENGINE': 'mysql.connector.django',
-          'NAME': 'cs4501',
-          'USER': 'www',
-          'PASSWORD': 'password',
-          'HOST': 'db_host',
-          }
-      }
+        'default': {
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'cs4501',
+        'USER': 'www',
+        'PASSWORD': 'password',
+        'HOST': 'db_host',
+        }
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

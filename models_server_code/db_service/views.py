@@ -34,13 +34,21 @@ def create_event(request):
 	description = request.POST['description']
 	start_time = request.POST['start_time']
 	location = request.POST['location']
-	creator_input = UserProfile.objects.get(pk=request.POST['creator_id'])
-	event = Event(name=name,description=description,start_time=start_time,location=location,creator=creator_input)
+	creator_id = request.POST['creator_id']
+	
+	creator_profile = UserProfile.objects.get(pk=creator_id)
+	event = Event(name=name,description=description,start_time=start_time,location=location,creator=creator_profile)
 	try:
 		event.save()
+<<<<<<< HEAD
 	except ProgrammingError:
+=======
+	except IntegrityError:
+		print("failed to save")
+>>>>>>> e2dfb1c8e1ce26dc56ef0e054fc32371b24c4afd
 		return _error_response(request,'db error, unable to save event')
 
+	print("new event, id = "+str(event.id))
 	return _success_response(request,{'Event successfully created->event_id':event.id})
 
 @csrf_exempt
@@ -88,16 +96,15 @@ def get_event(request,event_id):
 def create_ticket(request):
 	if request.method != 'POST':
 		return _error_response('must make POST request')
-	name = request.POST['name']
 	price = request.POST['price']
 	event_id = request.POST['event_id']
 	amount = request.POST['amount']
 	event = Event.objects.get(pk=event_id)
-	ticket = Ticket(name=name,price=price,event=event,amount=amount)
+	ticket = Ticket(price=price,event=event,amount=amount)
 	try:
 		ticket.save()
 	except db.Error:
-		return _error_response(request,'db error')
+		return _error_response(request,'db error, unable to save ticket')
 	return _success_response(request,{'ticket successfully created->ticket_id':ticket.id})
 
 @csrf_exempt
@@ -110,9 +117,6 @@ def update_ticket(request,ticket_id):
 		return _error_response(request,'ticket not found')
 
 	changed = False
-	if 'name' in request.POST:
-		ticket.name = request.POST['name']
-		changed = True
 	if 'price' in request.POST:
 		ticket.price = request.POST['price']
 		changed = True
@@ -124,7 +128,7 @@ def update_ticket(request,ticket_id):
 		return _error_response(request,'no field updated')
 	ticket.save()
 
-	return _success_response(request,'Event successfully updated')
+	return _success_response(request,'Ticket successfully updated')
 
 @csrf_exempt
 def get_ticket(request,ticket_id):
@@ -150,12 +154,14 @@ def create_user(request):
 	try:
 		user.save()
 	except:
-		return _error_response(request,'db error')
+		print("failed to save user")
+		return _error_response(request,'db error, unable to save User')
 	user_profile = UserProfile(first_name=firstname_input,last_name=lastname_input,user=user)
 	try:
 		user_profile.save()
 	except:
-		return _error_response(request,'db error')
+		print("failed to save User")
+		return _error_response(request,'db error, unable to save User')
 	return _success_response(request,{'user successfully created->user_id':user_profile.id})
 
 @csrf_exempt
@@ -207,7 +213,7 @@ def create_purchase(request):
         try:
                 purchase.save()
         except db.Error:
-                return _error_response(request,'db error')
+                return _error_response(request,'db error, unable to save purchase')
         return _success_response(request,{'purchase successfully created->purchase_id':purchase.id})
 
 def get_purchase(request, purchase_id):
@@ -218,21 +224,26 @@ def get_purchase(request, purchase_id):
         except:
                 return _error_response(request,'purchase not found')
         purchase.date = str(purchase.date) 
-        return _success_response(request, json.dumps(model_to_dict(purchase)))
+        return JsonResponse(model_to_dict(purchase))
 	
 def get_latest(request, count):
+	count = min(int(count), len(Event.objects.all()))
 	response = {} 
 	x = 0
 	current_event_id = Event.objects.latest('pub_date').id 
+	
 	while x < int(count):
+		print("current_event_id = "+str(current_event_id))
 		event = Event.objects.get(pk=current_event_id)
 		event.pub_date = str(event.pub_date) 
 		event.start_time = str(event.start_time)
 		eventdict = {current_event_id: model_to_dict(event)}
 		response.update(eventdict) 
 		current_event_id -= 1
-		x += 1 
-	return _success_response(request, json.dumps(response))	
+		#x += 2 
+		x += 1	
+	#print(str(response))
+	return JsonResponse(response)	
  
 def _error_response(request,error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
