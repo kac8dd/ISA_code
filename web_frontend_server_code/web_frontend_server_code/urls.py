@@ -18,6 +18,7 @@ from django.contrib import admin
 from web_frontend_server_code import views
 
 urlpatterns = [
+    url(r'^$',  include('events.urls')),
     url(r'^events/', include('events.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]
