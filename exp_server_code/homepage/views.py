@@ -20,46 +20,23 @@ import json
 #these are not front faceing POSTs so we don't need csrf tokens
 from django.views.decorators.csrf import csrf_exempt
 
-
 def index(request):
-	num = 5
+    try:
+        with urllib.request.urlopen("http://models_host:8000/api/v1/get/latest/5/") as url:
+            latest_events_json = url.read()
+        response = json.loads(latest_events_json.decode('utf-8'))
 
-	try:
-		#make api call to models layer for the latest events
-		with urllib.request.urlopen("http://models_host:8000/api/v1/get/latest/"+str(num)+"/") as url:
-			#decode the response
-			str_response = url.readall().decode('utf-8') 
-			#convert into json/python dictionary
-			latest_events_json = json.loads(str_response) 
-			
-			#get the information about the creator of each event and craft a response	
-			response = {}
-			for index, current_event in latest_events_json.items():
+        # for each event in our response, replace 'creator': 'id' with 'creator': {name: bob, ...}
+        for event_id in response:
+            creator_id = str(response[event_id]['creator'])
+            with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+creator_id+"/") as url:
+                event_creator_json = url.read()
+            user_response = json.loads(event_creator_json.decode('utf-8'))
+            response[event_id]['creator'] = user_response
 
-				str_response = urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(current_event['creator'])+"/").readall().decode('utf-8') 
-				current_creator= json.loads(str_response)
-				response[str(current_event)] = str(current_creator)
-			# while x < num:
-			# 	#get an event
-			# 	current_event = latest_events_json[str(x)] 
-				
-			# 	#querry the db for info on its creator
-			# 	str_response = urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(current_event['creator'])+"/").readall().decode('utf-8') 
-				
-			# 	#convert the response to json/dict
-			# 	current_creator= json.loads(str_response)
-			# 	#event_creator_dict = {} 
-			# 	response[str(current_event)] = str(current_creator)
-			
-			# 	#querry the db for its ticketing info
-			# 	#str_response = urllib.request.urlopen("http://models_host:8000/api/v1/get/ticket/"+str(current_event['ticket'])+"/").readall().decode('utf-8')
-	
-
-			# 	x=x+1	
-	except HTTPError:
-		return _error_response(request, 'unable to get http response from database')
-
-	return JsonResponse(response)
+    except HTTPError:
+        return _error_response(request, 'unable to get http response from database')
+    return JsonResponse(response)
 
 def _error_response(request,error_msg):
-	return JsonResponse({'ok': False, 'error': error_msg})
+    return JsonResponse({'ok': False, 'error': error_msg})
