@@ -49,15 +49,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-<<<<<<< HEAD
-=======
-    #'django.middleware.security.SecurityMiddleware',
->>>>>>> e2dfb1c8e1ce26dc56ef0e054fc32371b24c4afd
 )
 
 ROOT_URLCONF = 'web_frontend_server_code.urls'
 
-<<<<<<< HEAD
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -73,8 +68,6 @@ TEMPLATES = [
         },
     },
 ]
-=======
->>>>>>> e2dfb1c8e1ce26dc56ef0e054fc32371b24c4afd
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

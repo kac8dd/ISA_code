@@ -9,8 +9,7 @@ def index(request):
     try:
         with urllib.request.urlopen("http://exp_host:8000/api/v1/home/") as url:
             latest_events_json = url.read()
-        jsonstring = json.loads(latest_events_json.decode('utf-8'))
-        resp = json.loads(jsonstring['resp'])
+        resp = json.loads(latest_events_json.decode('utf-8'))
         events = []
         for key in resp:
             events.append(resp[key])
@@ -21,7 +20,7 @@ def index(request):
     })
 
 def details(request, event_id):
-    url = "http://exp_host:8000/api/v1/view_event/event=" + event_id + "/"
+    url = "http://exp_host:8000/api/v1/view_event/" + event_id + "/"
     try:
         with urllib.request.urlopen(url) as url:
             details_json = url.read()
