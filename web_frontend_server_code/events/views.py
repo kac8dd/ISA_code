@@ -11,8 +11,8 @@ def index(request):
             latest_events_json = url.read()
         resp = json.loads(latest_events_json.decode('utf-8'))
         events = []
-        for key in resp:
-            events.append(resp[key])
+        for key, value in resp.items():
+            events.append(value)
     except HTTPError:
         events = "read from exp_host failed"
     return render(request, 'eventlist.html', {

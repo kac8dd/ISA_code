@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'events',
 	'web_frontend_server_code', 
-    'front_end',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -102,8 +101,7 @@ WSGI_APPLICATION = 'web_frontend_server_code.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
+# No interaction with the database at this level
 
 
 
