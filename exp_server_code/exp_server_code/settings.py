@@ -71,7 +71,7 @@ WSGI_APPLICATION = 'exp_server_code.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+# No interaction with the database at this level
 
 
 # Internationalization

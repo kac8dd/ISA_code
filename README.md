@@ -2,6 +2,9 @@
 
 A ticket hosting website. By Kevin Clark, Kyle O'Donnell and Ian Zheng
 
+(kac8dd@virginia.edu, kpo4fz@virginia.edu, yz9fy@virginia.edu)
+
+
 This directory contains a number of scripts designed to help initialize/debug/build our website
 
 
@@ -33,5 +36,3 @@ test_get_latest.sh - sends curl requests to the models layer to make 7 user, eve
 			was implemented at the models layer to optimize the homepage service. This script
 			is ALSO useful for initializing the database with enough objects so that the
 			visiting the homepage service in a browser will work correctly 
-				 
- 
