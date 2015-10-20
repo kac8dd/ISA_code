@@ -1,16 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.utils import timezone
 import datetime
 # Create your models here.
 
-class UserProfile(models.Model):
-	user = models.OneToOneField(User)
-	first_name = models.CharField(max_length=200)
-	last_name = models.CharField(max_length=200)
-	
+class User(models.Model):
+	username = models.CharField(max_length=24, unique=True)
+	date_joined = models.DateTimeField()
+	firstname = models.CharField(max_length=16)
+	lastname = models.CharField(max_length=16)
+	password = models.CharField(max_length=96)
+	is_active = models.BooleanField(default=False)
+
 	def full_name(self):
-		return self.first_name+" "+self.last_name
+		return self.firstname+" "+self.lastname
 
 	def __str__(self):
 		return self.full_name()
@@ -21,7 +24,7 @@ class Event(models.Model):
 	start_time = models.DateTimeField(default=datetime.datetime.today)
 	pub_date = models.DateTimeField(default=datetime.datetime.today)
 	location = models.CharField(max_length=1000)
-	creator = models.ForeignKey(UserProfile)
+	creator = models.ForeignKey(User)
 	#ticket = models.OneToOneField(Ticket, default=none)
 
 	def __str__(self):
@@ -37,7 +40,7 @@ class Ticket(models.Model):
 		return self.event.name+" - "+self.id 
 
 class Purchase(models.Model):
-	user_profile = models.OneToOneField(UserProfile)
+	buyer = models.OneToOneField(User)
 	ticket = models.OneToOneField(Ticket)
 	date = models.DateTimeField(default=datetime.datetime.today)
 

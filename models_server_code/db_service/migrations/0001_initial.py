@@ -3,20 +3,18 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import datetime
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Event',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
                 ('name', models.CharField(max_length=300)),
                 ('description', models.CharField(max_length=5000)),
                 ('start_time', models.DateTimeField(default=datetime.datetime.today)),
@@ -30,7 +28,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Purchase',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
                 ('date', models.DateTimeField(default=datetime.datetime.today)),
             ],
             options={
@@ -40,7 +38,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Ticket',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
                 ('price', models.FloatField()),
                 ('amount', models.IntegerField()),
                 ('event', models.ForeignKey(to='db_service.Event')),
@@ -50,16 +48,25 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='UserProfile',
+            name='User',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=200)),
-                ('last_name', models.CharField(max_length=200)),
-                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
+                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
+                ('username', models.CharField(unique=True, max_length=24)),
+                ('date_joined', models.DateTimeField()),
+                ('firstname', models.CharField(max_length=16)),
+                ('lastname', models.CharField(max_length=16)),
+                ('password', models.CharField(max_length=96)),
+                ('is_active', models.BooleanField(default=False)),
             ],
             options={
             },
             bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='purchase',
+            name='buyer',
+            field=models.OneToOneField(to='db_service.User'),
+            preserve_default=True,
         ),
         migrations.AddField(
             model_name='purchase',
@@ -68,15 +75,9 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='purchase',
-            name='user_profile',
-            field=models.OneToOneField(to='db_service.UserProfile'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
             model_name='event',
             name='creator',
-            field=models.ForeignKey(to='db_service.UserProfile'),
+            field=models.ForeignKey(to='db_service.User'),
             preserve_default=True,
         ),
     ]

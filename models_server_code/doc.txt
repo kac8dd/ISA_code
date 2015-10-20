@@ -31,8 +31,8 @@ DIRECTORY HEIRARCHY:
 MODELS
 	UserProfile
 		user		:	OneToOneField->(Django.User) 
-		First_name	:	CharField 
-		Last_name	:	CharField		
+		Firstname	:	CharField 
+		Lastname	:	CharField		
 	Event
 		name		:	CharField
         	description	:	CharField
