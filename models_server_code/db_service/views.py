@@ -1,8 +1,10 @@
 import datetime
+import os
+import base64
 
 from django.shortcuts import render
-from db_service.models import User, Event, Ticket, Purchase
-
+from db_service.models import User, Event, Ticket, Purchase, Authenticator
+from db_service import models
 # response
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
@@ -20,6 +22,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 #database transactions
 from django.db import IntegrityError, transaction
+from django import db
 
 import json
 
@@ -207,7 +210,7 @@ def get_user(request,user_id):
 
 def create_purchase(request):
         if request.method != 'POST':
-                return _error_response('must make POST request')
+            return _error_response('must make POST request')
         if 'user_id' not in request.POST or \
             'ticket_id' not in request.POST:
             return _error_response(request, "missing required fields")
@@ -215,21 +218,65 @@ def create_purchase(request):
         ticket_input = Ticket.objects.get(pk=request.POST['ticket_id']) 
         purchase = Purchase(buyer=user_input,ticket=ticket_input,)
         try:
-                purchase.save()
+            purchase.save()
         except db.Error:
-                return _error_response(request,'db error, unable to save purchase')
+            return _error_response(request,'db error, unable to save purchase')
         return _success_response(request,{'purchase successfully created->purchase_id':purchase.id})
 
 def get_purchase(request, purchase_id):
         if request.method != 'GET':
-                return _error_response(request,'must make GET request')
+            return _error_response(request,'must make GET request')
         try:
-                purchase = Purchase.objects.get(pk=purchase_id)
+            purchase = Purchase.objects.get(pk=purchase_id)
         except:
-                return _error_response(request,'purchase not found')
+            return _error_response(request,'purchase not found')
         purchase.date = str(purchase.date) 
         return JsonResponse(model_to_dict(purchase))
-    
+
+def create_authenticator(request):
+    if request.method != 'POST':
+        return _error_response(request,'must make POST request')
+    if 'user_id' not in request.POST:
+        return _error_response(request,"missing required fields")
+    user_id = request.POST['user_id']
+    try:
+        user = User.objects.get(pk=user_id)
+    except models.User.DoesNotExist:
+        return _error_response(request, 'user does not exist')
+    authenticator = base64.b64encode(os.urandom(32)).decode('utf-8')
+    auth = Authenticator(authenticator=authenticator,user_id=user_id)
+    try:
+        auth.save()
+    except db.Error:
+        return _error_response(request, "db error")
+    return _success_response(request,{'authenticator successfully created for user_id':auth.user_id})
+
+def authenticate(request):
+    if request.method != 'POST':
+        return _error_response(request, 'must make POST request')
+    if 'authenticator' not in request.POST:
+        return _error_response(request, "missing required fields")
+    authenticator = request.POST['authenticator']
+    try:
+        auth = Authenticator.objects.get(pk=authenticator)
+    except:
+        return _error_response(request, 'authenticator not found')
+    return _success_response(request, {'user_id':auth.user_id})
+
+def logout(request):
+    if request.method != 'POST':
+        return _error_response(request, 'must make POST request')
+    if 'authenticator' not in request.POST:
+        return _error_response(request, "missing required fields")
+    authenticator = request.POST['authenticator']
+    try:
+        auth = Authenticator.objects.get(pk=authenticator)
+        user_id = auth.user_id
+        auth.delete()
+        return _success_response(request, 'authenticator is deleted for userid=='+str(user_id))
+    except:
+        return _error_response(request, 'authenticator is not found or cannot be deleted')
+
 def get_latest(request, count):
     count = min(int(count), len(Event.objects.all()))
     response = {} 

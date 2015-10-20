@@ -21,8 +21,8 @@ class User(models.Model):
 class Event(models.Model):
 	name = models.CharField(max_length=300)
 	description = models.CharField(max_length=5000)
-	start_time = models.DateTimeField(default=datetime.datetime.today)
-	pub_date = models.DateTimeField(default=datetime.datetime.today)
+	start_time = models.DateTimeField(default=datetime.datetime.now)
+	pub_date = models.DateTimeField(default=datetime.datetime.now)
 	location = models.CharField(max_length=1000)
 	creator = models.ForeignKey(User)
 	#ticket = models.OneToOneField(Ticket, default=none)
@@ -37,13 +37,21 @@ class Ticket(models.Model):
 	amount = models.IntegerField()
 	
 	def __str__(self):
-		return self.event.name+" - "+self.id 
+		return self.event.name+" - "+str(self.id)
 
 class Purchase(models.Model):
 	buyer = models.OneToOneField(User)
 	ticket = models.OneToOneField(Ticket)
-	date = models.DateTimeField(default=datetime.datetime.today)
+	date = models.DateTimeField(default=datetime.datetime.now)
 
 	def __str__(self):
 		full_name = self.user_profile.full_name()
 		return full_name + " purchases " + self.ticket.name
+
+class Authenticator(models.Model):
+	authenticator = models.CharField(max_length=100, primary_key=True)
+	user_id = models.IntegerField()
+	date_created = models.DateTimeField(default=datetime.datetime.now)
+
+	def __str__(self):
+		return "authenticator for user_id=="+str(self.user_id)
