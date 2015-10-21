@@ -8,6 +8,7 @@ from exp_server_code import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/v1/user/create/$', views.create_user, name='CreateUser'),
     url(r'^api/v1/home/', include('homepage.urls')),
     url(r'^api/v1/view_event/', include('eventpage.urls')), 
 ]
