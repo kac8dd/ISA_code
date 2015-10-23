@@ -9,9 +9,10 @@ def index(request):
 
 def create_user(request):
 	"""
-	create user with the post fields in the database
-	create authenticator for that user
-	return that authenticator in JSON with key "authenticator"
+	method:POST
+	api call: "http://exp_host:8000/api/v1/user/create/"
+	input:username, firstname, lastname, password
+	normal case return: {"resp": {"authenticator": "C/hVGf8L0+U43Pjc3hkjTkfNZKbWHHcayzvNZCJ/aVY="}, "ok": true}
 	"""
 	# edge case checking
 	if request.method != 'POST':
@@ -52,36 +53,18 @@ def create_user(request):
 	except HTTPError:
 		return _error_response(request, 'unable to get http response from models api')
 	# checking response
-	if not authenticator_response['ok']:
-		return _error_response(request, authenticator_response['error'])
-	return JsonResponse(authenticator_response["resp"])
-
-def authenticate_user(request):
-	# edge case checking
-	if request.method != 'POST':
-		return _error_response(request, "must make POST request")
-	if 'authenticator' not in request.POST:
-		return _error_response(request, "missing required fields")
-	# calling authenticate()
-	post_value = {
-		"authenticator":request.POST['authenticator']
-	}
-	data = urlencode(post_value).encode('utf-8')
-	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/user/authenticate/", data) as url:
-			content = url.read().decode('utf-8')
-		authenticate_response = json.loads(content)
-	except HTTPError:
-		return _error_response(request, 'unable to get http response from models api')
-	# checking response
-	if not authenticate_response['ok']:
-		return _error_response(request, authenticate_response['error'])
-	return JsonResponse(authenticate_response)
+	return JsonResponse(authenticator_response)
 
 def logout(request):
+	"""
+	method:POST
+	api call: "http://exp_host:8000/api/v1/user/logout/"
+	input:authenticator
+	normal case return:{"ok": true, "resp": {"userid": 32}}
+	"""
 	if request.method != 'POST':
 		return _error_response(request, "must make POST request")
-	if authenticator not in request.POST:
+	if "authenticator" not in request.POST:
 		return _error_response(request, "missing required fields")
 	post_value = {
 		"authenticator":request.POST["authenticator"]
@@ -98,6 +81,12 @@ def logout(request):
 	return JsonResponse(logout_response)
 
 def login(request):
+	"""
+	method:POST
+	api call: "http://exp_host:8000/api/v1/user/login/"
+	input:username, password
+	normal case return:{"resp": {"authenticator": "0SIZvopgP3D9H+YUm9aqBpC0brjrMbBwZg8jspJhj0g="}, "ok": true}
+	"""
 	if request.method != "POST":
 		return _error_response(request, "must make POST request")
 	if "username" not in request.POST or \
@@ -130,6 +119,12 @@ def login(request):
 	return JsonResponse(authenticator_response)
 
 def create_event(request):
+	"""
+	method:POST
+	api call: "http://exp_host:8000/api/v1/event/create/"
+	input: authenticator, name, description, start_time, location
+	normal case return: {"ok": true, "resp": {"event_id": 8}}
+	"""
 	if request.method != "POST":
 		return _error_response(request, "must make post request")
 	if "authenticator" not in request.POST or \
