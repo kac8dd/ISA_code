@@ -169,9 +169,9 @@ def create_user(request):
     try:
         user.save()
     except db.Error:
-        return _error_response(request, "db error")
+        return _error_response(request, "db error: username conflicts")
     
-    return _success_response(request,{'user successfully created->user_id':user.pk})
+    return _success_response(request,{'user_id':user.pk})
 
 def update_user(request,user_id):
     if request.method != 'POST':
@@ -249,7 +249,7 @@ def create_authenticator(request):
         auth.save()
     except db.Error:
         return _error_response(request, "db error")
-    return _success_response(request,{'authenticator successfully created for user_id':auth.user_id})
+    return _success_response(request,{'authenticator':auth.authenticator})
 
 def authenticate(request):
     if request.method != 'POST':

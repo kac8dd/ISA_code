@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/v1/user/create/$', views.create_user, name='CreateUser'),
+    url(r'^api/v1/user/authenticate/$', views.authenticate_user, name='AuthenticateUser'),
     url(r'^api/v1/home/', include('homepage.urls')),
     url(r'^api/v1/view_event/', include('eventpage.urls')), 
 ]
