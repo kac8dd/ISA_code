@@ -57,7 +57,7 @@ def create_event(request):
         return _error_response(request,'db error, unable to save event')
 
     print("new event, id = "+str(event.id))
-    return _success_response(request,{'Event successfully created->event_id':event.id})
+    return _success_response(request,{'event_id':event.id})
 
 def update_event(request,event_id):
     if request.method != 'POST':
@@ -243,6 +243,9 @@ def create_authenticator(request):
         user = User.objects.get(pk=user_id)
     except models.User.DoesNotExist:
         return _error_response(request, 'user does not exist')
+    auth = Authenticator.objects.filter(user_id = user_id)
+    if auth:
+        return _error_response(request, "Authenticator already created for user_id=="+user_id)
     authenticator = base64.b64encode(os.urandom(32)).decode('utf-8')
     auth = Authenticator(authenticator=authenticator,user_id=user_id)
     try:
@@ -251,7 +254,32 @@ def create_authenticator(request):
         return _error_response(request, "db error")
     return _success_response(request,{'authenticator':auth.authenticator})
 
+def validate(request):
+    """
+    authenticate using username and password
+    """
+    if request.method != "POST":
+        return _error_response(request, "must make POST request")
+    if "username" not in request.POST or \
+        "password" not in request.POST:
+        return _error_response(request, "missing required fields")
+    username = request.POST["username"]
+    password = request.POST["password"]
+    try:
+        user = User.objects.get(username = username)
+    except models.User.DoesNotExist:
+        return _error_response(request, "User not found")
+    is_correct = hashers.check_password(password, user.password)
+    if is_correct:
+        return _success_response(request, {"user_id":user.pk})
+    else:
+        return _error_response(request, "Username and password do not match.")
+
+
 def authenticate(request):
+    """
+    authenticate using authenticator
+    """
     if request.method != 'POST':
         return _error_response(request, 'must make POST request')
     if 'authenticator' not in request.POST:
@@ -273,9 +301,10 @@ def logout(request):
         auth = Authenticator.objects.get(pk=authenticator)
         user_id = auth.user_id
         auth.delete()
-        return _success_response(request, 'authenticator is deleted for userid=='+str(user_id))
+        return _success_response(request, {'userid':user_id})
     except:
-        return _error_response(request, 'authenticator is not found or cannot be deleted')
+        return _error_response(request,"Authenticator not found or cannot delete")
+    
 
 def get_latest(request, count):
     count = min(int(count), len(Event.objects.all()))

@@ -22,6 +22,7 @@ urlpatterns = patterns('',
 	url(r'^api/v1/get/purchase/(?P<purchase_id>\d+)/$',views.get_purchase,name='purchase'), 
 	url(r'^api/v1/get/latest/(?P<count>[1-50])/$', views.get_latest,name='latest'),	
 	url(r'^api/v1/user/authenticate/$',views.authenticate,name='Authenticate'), 
+	url(r'^api/v1/user/validate/$',views.validate,name='Validate'), 
 
 
 )

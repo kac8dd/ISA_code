@@ -78,7 +78,94 @@ def authenticate_user(request):
 		return _error_response(request, authenticate_response['error'])
 	return JsonResponse(authenticate_response)
 
-# def logout(request):
+def logout(request):
+	if request.method != 'POST':
+		return _error_response(request, "must make POST request")
+	if authenticator not in request.POST:
+		return _error_response(request, "missing required fields")
+	post_value = {
+		"authenticator":request.POST["authenticator"]
+	}
+	data = urlencode(post_value).encode('utf-8')
+	try:
+		with urllib.request.urlopen("http://models_host:8000/api/v1/user/logout/",data) as url:
+			content = url.read().decode('utf-8')
+		logout_response = json.loads(content)
+	except HTTPError:
+		return _error_response(request, 'unable to get http response from models api')
+	if not logout_response["ok"]:
+		return _error_response(request, logout_response["error"])
+	return JsonResponse(logout_response)
+
+def login(request):
+	if request.method != "POST":
+		return _error_response(request, "must make POST request")
+	if "username" not in request.POST or \
+		"password" not in request.POST:
+		return _error_response(request, "missing required fields")
+	post_value = {
+		"username":request.POST["username"],
+		"password":request.POST["password"],
+	}
+	data = urlencode(post_value).encode("utf-8")
+	try:
+		with urllib.request.urlopen("http://models_host:8000/api/v1/user/validate/",data) as url:
+			content = url.read().decode("utf-8")
+		validate_response = json.loads(content)
+	except HTTPError:
+		return _error_response("unable to get http response from models api")
+	if not validate_response["ok"]:
+		return JsonResponse(validate_response)
+	user_id = validate_response["resp"]["user_id"]
+	post_value = {
+		"user_id":user_id
+	}
+	data = urlencode(post_value).encode("utf-8")
+	try:
+		with urllib.request.urlopen("http://models_host:8000/api/v1/create/authenticator/",data) as url:
+			content = url.read().decode("utf-8")
+		authenticator_response = json.loads(content)
+	except HTTPError:
+		return _error_response(request, "unable to get http response from models api")
+	return JsonResponse(authenticator_response)
+
+def create_event(request):
+	if request.method != "POST":
+		return _error_response(request, "must make post request")
+	if "authenticator" not in request.POST or \
+		"name" not in request.POST or \
+		"description" not in request.POST or \
+		"start_time" not in request.POST or \
+		"location" not in request.POST:
+		return _error_response(request, "missing required fields")
+	post_value = {
+		"authenticator" : request.POST["authenticator"]
+	}
+	data = urlencode(post_value).encode("utf-8")
+	try:
+		with urllib.request.urlopen("http://models_host:8000/api/v1/user/authenticate/",data) as url:
+			content = url.read().decode("utf-8")
+		authenticate_response = json.loads(content)
+	except HTTPError:
+		return _error_response(request, "unable to get http response from models api")
+	if not authenticate_response["ok"]:
+		return JsonResponse(authenticate_response)
+	user_id = authenticate_response["resp"]["user_id"]
+	post_value = {
+		"name" : request.POST["name"],
+		"description" : request.POST["description"],
+		"location" : request.POST["location"],
+		"start_time" : request.POST["start_time"],
+		"creator_id" : user_id
+	}
+	data = urlencode(post_value).encode("utf-8")
+	try:
+		with urllib.request.urlopen("http://models_host:8000/api/v1/create/event/",data) as url:
+			content = url.read().decode("utf-8")
+		event_response = json.loads(content)
+	except HTTPError:
+		return _error_response(request, 'unable to get http response from models api')
+	return JsonResponse(event_response)
 
 def _error_response(request,error_msg):
     return JsonResponse({'ok': False, 'error': error_msg})
