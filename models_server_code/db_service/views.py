@@ -245,7 +245,8 @@ def create_authenticator(request):
         return _error_response(request, 'user does not exist')
     auth = Authenticator.objects.filter(user_id = user_id)
     if auth:
-        return _error_response(request, "Authenticator already created for user_id=="+user_id)
+        auth = auth.first()
+        return _success_response(request,{'authenticator':auth.authenticator})
     authenticator = base64.b64encode(os.urandom(32)).decode('utf-8')
     auth = Authenticator(authenticator=authenticator,user_id=user_id)
     try:
@@ -310,18 +311,11 @@ def get_latest(request, count):
     count = min(int(count), len(Event.objects.all()))
     response = {} 
     x = 0
-    current_event_id = Event.objects.latest('pub_date').id 
+    events = Event.objects.all().order_by('-pub_date') 
     
-    while x < int(count):
-        print("current_event_id = "+str(current_event_id))
-        event = Event.objects.get(pk=current_event_id)
-        event.pub_date = str(event.pub_date) 
-        event.start_time = str(event.start_time)
-        eventdict = {current_event_id: model_to_dict(event)}
-        response.update(eventdict) 
-        current_event_id -= 1
-        #x += 2 
-        x += 1    
+    for i in range(count):
+        event = events[i]
+        response[event.id] = model_to_dict(event)
     #print(str(response))
     return JsonResponse(response)    
  

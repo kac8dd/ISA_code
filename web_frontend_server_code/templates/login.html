@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+<br>
+<form method="post" action="/login/">
+	{{login_form.as_p}}
+	<input class="btn btn-primary" type="submit" name="submit" value="Login">
+</form>
+	<a class="btn btn-primary" href='/user/create/'>Register</a>
+</div><!-- /.container -->
+{% endblock %}
