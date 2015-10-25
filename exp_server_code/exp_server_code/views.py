@@ -40,8 +40,18 @@ def create_user(request):
 	if not user_response['ok']:
 		return _error_response(request, user_response['error'])
 	user_id = user_response['resp']['user_id']
-	#calling create_authenticator()
 
+	# get_user
+	try:
+		with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(user_id)) as url:
+			content = url.read().decode("utf-8")
+		user_response = json.loads(content)
+	except HTTPError:
+		return _error_response("unable to get http response from models apiy")
+	firstname = user_response["firstname"]
+	lastname = user_response["lastname"]
+
+	#calling create_authenticator()
 	post_value = {
 		'user_id':user_id
 	}
@@ -52,7 +62,10 @@ def create_user(request):
 		authenticator_response = json.loads(content)
 	except HTTPError:
 		return _error_response(request, 'unable to get http response from models api')
-	# checking response
+	if not authenticator_response["ok"]:
+		return JsonResponse(authenticator_response)
+	authenticator_response["resp"]["firstname"] = firstname
+	authenticator_response["resp"]["lastname"] = lastname
 	return JsonResponse(authenticator_response)
 
 def logout(request):
@@ -69,6 +82,7 @@ def logout(request):
 	post_value = {
 		"authenticator":request.POST["authenticator"]
 	}
+
 	data = urlencode(post_value).encode('utf-8')
 	try:
 		with urllib.request.urlopen("http://models_host:8000/api/v1/user/logout/",data) as url:
@@ -102,20 +116,36 @@ def login(request):
 			content = url.read().decode("utf-8")
 		validate_response = json.loads(content)
 	except HTTPError:
-		return _error_response("unable to get http response from models api")
+		return _error_response("unable to get http response from models apix")
 	if not validate_response["ok"]:
 		return JsonResponse(validate_response)
 	user_id = validate_response["resp"]["user_id"]
+	# get_user
+	try:
+		with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(user_id)) as url:
+			content = url.read().decode("utf-8")
+		user_response = json.loads(content)
+	except HTTPError:
+		return _error_response("unable to get http response from models apiy")
+	firstname = user_response["firstname"]
+	lastname = user_response["lastname"]
+
+	# create_authenticate
 	post_value = {
 		"user_id":user_id
 	}
+
 	data = urlencode(post_value).encode("utf-8")
 	try:
 		with urllib.request.urlopen("http://models_host:8000/api/v1/create/authenticator/",data) as url:
 			content = url.read().decode("utf-8")
 		authenticator_response = json.loads(content)
 	except HTTPError:
-		return _error_response(request, "unable to get http response from models api")
+		return _error_response(request, "unable to get http response from models apiz")
+	if not authenticator_response["ok"]:
+		return JsonResponse(authenticator_response)
+	authenticator_response["resp"]["firstname"]=firstname
+	authenticator_response["resp"]["lastname"]=lastname
 	return JsonResponse(authenticator_response)
 
 def create_event(request):
