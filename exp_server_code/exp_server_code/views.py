@@ -203,9 +203,14 @@ def create_event(request):
 		event_response = json.loads(content)
 	except HTTPError:
 		return _error_response(request, 'unable to get http response from models api')
+	with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(user_id)+"/") as url:
+		event_creator_json = url.read()
+	user_response = json.loads(event_creator_json.decode('utf-8'))
 	#kafka
 	event_id = event_response['resp']['event_id']
 	post_value['event_id'] = event_id
+	post_value['firstname'] = user_response['firstname']
+	post_value['lastname'] = user_response['lastname']
 	try:
 		producer.send_messages(b'event', json.dumps(post_value).encode('utf-8'))
 	except:
