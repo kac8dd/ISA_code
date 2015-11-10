@@ -8,9 +8,11 @@ A ticket hosting website. By Kevin Clark, Kyle O'Donnell and Ian Zheng
 This directory contains a number of scripts designed to help initialize/debug/build our website
 
 
-set_up_dev_env.sh - starts all three layers(containers) with mod_wsgi-express
+set_up_kafka.sh - starts all three layers(models, exp, web front-end) with mod_wsgi-express and the containers for Kafka, Batch and Elastic Search.
 
-tear_down_dev_env - stops, and then removes all three layers(containers)
+** need to modify the -v tag to mount your file path onto the container in the set_up_kafka.sh file.
+
+tear_down_kafka.sh - stops, and then removes all six containers
 
 tty_[models | exp | web].sh - starts all layers below the one selected and then
 				starts and attaches to the container layer in
