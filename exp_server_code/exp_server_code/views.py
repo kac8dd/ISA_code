@@ -185,7 +185,7 @@ def create_event(request):
 			content = url.read().decode("utf-8")
 		authenticate_response = json.loads(content)
 	except HTTPError:
-		return _error_response(request, "unable to get http response from models api")
+		return _error_response(request, "unable to get http response from models api authenticate")
 	if not authenticate_response["ok"]:
 		return JsonResponse(authenticate_response)
 	user_id = authenticate_response["resp"]["user_id"]
@@ -202,7 +202,7 @@ def create_event(request):
 			content = url.read().decode("utf-8")
 		event_response = json.loads(content)
 	except HTTPError:
-		return _error_response(request, 'unable to get http response from models api')
+		return _error_response(request, 'unable to get http response from models api create event')
 	with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(user_id)+"/") as url:
 		event_creator_json = url.read()
 	user_response = json.loads(event_creator_json.decode('utf-8'))
