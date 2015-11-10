@@ -15,7 +15,7 @@ This directory contains a number of scripts designed to help initialize/debug/bu
 - need to modify the -v tag to mount your file path onto the container in the set_up_kafka.sh file.
 For example
 ```
-docker run -d --name models -p 8001:8000 -v <You File Path>:/app --link mysql:db_host tp33/django:1.1 mod_wsgi-express start-server --reload-on-changes models_server_code/wsgi.py 
+	docker run -d --name models -p 8001:8000 -v <You File Path>:/app --link mysql:db_host tp33/django:1.1 mod_wsgi-express start-server --reload-on-changes models_server_code/wsgi.py 
 
 ```
 ```
