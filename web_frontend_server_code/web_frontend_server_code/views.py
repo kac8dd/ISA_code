@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 unable = 'unable to get http response from models api'
 missing = 'missing required fields'
 post = 'must make a post request'
+no_index = 'The Elastic Search has not indexed anything yet. Try creating an event first!'
 
 def index(request):
 	# get authenticator and name from cookies
@@ -173,6 +174,6 @@ def search_event(request):
 			content = url.read().decode('utf-8')
 		event_response = json.loads(content)
 	except HTTPError:
-		return render(request,'error.html',{'error':unable})
+		return render(request,'error.html',{'error':no_index})
 	events = event_response.values()
 	return render(request, 'search_event.html',{'events':events,'keyword':request.POST['keyword']})
