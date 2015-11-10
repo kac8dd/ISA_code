@@ -14,4 +14,7 @@ urlpatterns = [
     url(r'^api/v1/home/', include('homepage.urls')),
     url(r'^api/v1/view_event/', include('eventpage.urls')), 
     url(r'^api/v1/event/create/$', views.create_event, name='CreateEvent'),
+    url(r'^api/v1/event/search/$', views.search_event, name='SearchEvent'),
+
+
 ]

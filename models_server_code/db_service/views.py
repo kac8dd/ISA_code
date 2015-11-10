@@ -310,7 +310,6 @@ def logout(request):
 def get_latest(request, count):
     count = min(int(count), len(Event.objects.all()))
     response = {}
-    x = 0
     events = Event.objects.all().order_by('-pub_date') 
     
     for i in range(count):

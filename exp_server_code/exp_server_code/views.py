@@ -3,6 +3,19 @@ import urllib
 from urllib.parse import urlencode
 from urllib.error import HTTPError 
 import json
+import time
+
+#kafka
+from kafka import SimpleProducer, KafkaClient 
+
+#es
+from elasticsearch import Elasticsearch
+
+kafka = KafkaClient('kafka:9092')
+producer = SimpleProducer(kafka)
+es = Elasticsearch(['es'])
+not_use_post = 'must make post request'
+missing = 'missing required fields'
 
 def index(request):
 	return HttpResponse('This is the experience api.')
@@ -16,12 +29,12 @@ def create_user(request):
 	"""
 	# edge case checking
 	if request.method != 'POST':
-		return _error_response(request, "must make POST request")
+		return _error_response(request, not_use_post)
 	if 'username' not in request.POST or \
 		'firstname' not in request.POST or \
 		'lastname' not in request.POST or \
 		'password' not in request.POST:
-		return _error_response(request, "missing required fields")
+		return _error_response(request, missing)
 	# calling create_user
 	post_value = {
 		'username':request.POST['username'],
@@ -76,9 +89,9 @@ def logout(request):
 	normal case return:{"ok": true, "resp": {"userid": 32}}
 	"""
 	if request.method != 'POST':
-		return _error_response(request, "must make POST request")
+		return _error_response(request, not_use_post)
 	if "authenticator" not in request.POST:
-		return _error_response(request, "missing required fields")
+		return _error_response(request, missing)
 	post_value = {
 		"authenticator":request.POST["authenticator"]
 	}
@@ -102,10 +115,10 @@ def login(request):
 	normal case return:{"resp": {"authenticator": "0SIZvopgP3D9H+YUm9aqBpC0brjrMbBwZg8jspJhj0g="}, "ok": true}
 	"""
 	if request.method != "POST":
-		return _error_response(request, "must make POST request")
+		return _error_response(request, not_use_post)
 	if "username" not in request.POST or \
 		"password" not in request.POST:
-		return _error_response(request, "missing required fields")
+		return _error_response(request, missing)
 	post_value = {
 		"username":request.POST["username"],
 		"password":request.POST["password"],
@@ -156,13 +169,13 @@ def create_event(request):
 	normal case return: {"ok": true, "resp": {"event_id": 8}}
 	"""
 	if request.method != "POST":
-		return _error_response(request, "must make post request")
+		return _error_response(request, not_use_post)
 	if "authenticator" not in request.POST or \
 		"name" not in request.POST or \
 		"description" not in request.POST or \
 		"start_time" not in request.POST or \
 		"location" not in request.POST:
-		return _error_response(request, "missing required fields")
+		return _error_response(request, missing)
 	post_value = {
 		"authenticator" : request.POST["authenticator"]
 	}
@@ -190,7 +203,29 @@ def create_event(request):
 		event_response = json.loads(content)
 	except HTTPError:
 		return _error_response(request, 'unable to get http response from models api')
+	#kafka
+	event_id = event_response['resp']['event_id']
+	post_value['event_id'] = event_id
+	try:
+		producer.send_messages(b'event', json.dumps(post_value).encode('utf-8'))
+	except:
+		time.sleep(3)
+		producer.send_messages(b'event', json.dumps(post_value).encode('utf-8'))
 	return JsonResponse(event_response)
+
+def search_event(request):
+	if request.method != 'POST':
+		return _error_response(request, not_use_post)
+	if "keyword" not in request.POST:
+		return _error_response(request, missing)
+	keyword = request.POST["keyword"]
+	es.indices.refresh(index="listing_index")
+	result = es.search(index='listing_index', body={'query': {'query_string': {'query': keyword}}, 'size': 10})
+	result = result['hits']['hits']
+	response= {}
+	for event in result:
+		response[event['_id']] = event['_source']
+	return JsonResponse(response)
 
 def _error_response(request,error_msg):
     return JsonResponse({'ok': False, 'error': error_msg})
