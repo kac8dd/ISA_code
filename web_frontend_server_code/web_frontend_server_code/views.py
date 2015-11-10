@@ -10,6 +10,8 @@ from django.core.urlresolvers import reverse
 
 unable = 'unable to get http response from models api'
 missing = 'missing required fields'
+post = 'must make a post request'
+
 def index(request):
 	# get authenticator and name from cookies
 	auth = request.COOKIES.get("auth")
@@ -153,4 +155,24 @@ def add_event(request):
 		return HttpResponseRedirect(reverse('Details',args=[event_id]))
 	event_form = EventForm()
 	return render(request, 'addevent.html', {'event_form':event_form})
-# Create your views here.
+
+def search_event(request):
+	auth = request.COOKIES.get("auth")
+	if not auth:
+		return HttpResponseRedirect(reverse('Login'))
+	if request.method != 'POST':
+		return render(request,'error.html',{'error':post})
+	if "keyword" not in request.POST:
+		return render(request, 'error.html',{'error':missing})
+	post_value = {
+		'keyword':request.POST['keyword'],
+	}
+	data = urlencode(post_value).encode('utf-8')
+	try:
+		with urllib.request.urlopen("http://exp_host:8000/api/v1/event/search/",data) as url:
+			content = url.read().decode('utf-8')
+		event_response = json.loads(content)
+	except HTTPError:
+		return render(request,'error.html',{'error':unable})
+	events = event_response.values()
+	return render(request, 'search_event.html',{'events':events,'keyword':request.POST['keyword']})

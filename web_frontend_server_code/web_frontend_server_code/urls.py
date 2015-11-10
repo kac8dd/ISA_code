@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^login/$', views.login, name='Login'),
     url(r'^logout/$', views.logout, name='Logout'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^events/search/$', views.search_event, name='SearchEvent'),
 ]

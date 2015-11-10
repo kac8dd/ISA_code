@@ -224,7 +224,13 @@ def search_event(request):
 	result = result['hits']['hits']
 	response= {}
 	for event in result:
-		response[event['_id']] = event['_source']
+		e = event['_source']
+		creator_id = str(e['creator_id'])
+		with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+creator_id+"/") as url:
+			event_creator_json = url.read()
+		user_response = json.loads(event_creator_json.decode('utf-8'))
+		e['creator'] = user_response
+		response[event['_id']] = e
 	return JsonResponse(response)
 
 def _error_response(request,error_msg):
