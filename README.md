@@ -12,8 +12,10 @@ This directory contains a number of scripts designed to help initialize/debug/bu
 ```
 sh set_up_kafka.sh
 ```
-- starts all three layers(models, exp, web front-end) with mod_wsgi-express and the containers for Kafka, Batch and Elastic Search. The shell script take into account all the gliches of the Kafka so that you only need to run the script once and everything will be set up properly.
-
+- starts all three layers(models, exp, web front-end) with mod_wsgi-express and the containers for Kafka, Batch and Elastic Search. The shell script take into account all the gliches of the Kafka so that you only need to run the script once and everything will be set up properly. In a native Linux System (which is the system I use), the Web App can be accessed at
+```
+http://localhost:8003
+```
 - you will need to modify the -v tag to mount your file path onto the container in the set_up_kafka.sh file.
 
 For example
