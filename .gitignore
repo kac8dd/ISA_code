@@ -2,5 +2,3 @@
 *.pot
 *.pyc
 *.sqlite3
-*.sh
-secrets.py
