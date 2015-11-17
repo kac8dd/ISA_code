@@ -1,4 +1,5 @@
 #!/bin/bash
+
 docker run -d --name kafka --env ADVERTISED_HOST=kafka --env ADVERTISED_PORT=9092 spotify/kafka
 
 docker run -d -p 9200:9200 --name es elasticsearch:2.0 -Des.network.host=es
