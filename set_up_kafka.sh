@@ -1,5 +1,4 @@
 #!/bin/bash
-cd ISA_code
 
 PWD=`pwd`
 
