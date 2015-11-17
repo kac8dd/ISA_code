@@ -9,7 +9,7 @@ docker run -d --name kafka --env ADVERTISED_HOST=kafka --env ADVERTISED_PORT=909
 
 docker run -d -p 9200:9200 --name es elasticsearch:2.0 -Des.network.host=es
 
-docker run -d --name models -p 8001:8000 -v $PWD/models_server_code:/app --link mysql:db_host tp33/django:1.1 python manage.py migrate mod_wsgi-express start-server --reload-on-changes models_server_code/wsgi.py 
+docker run -d --name models -p 8001:8000 -v $PWD/models_server_code:/app --link mysql:db_host tp33/django:1.1 /bin/bash -c "python manage.py migrate; mod_wsgi-express start-server --reload-on-changes models_server_code/wsgi.py"
 
 docker run -d --name exp -p 8002:8000 -v $PWD/exp_server_code:/app --link models:models_host --link kafka:kafka --link es:es tp33/django:1.1 mod_wsgi-express start-server --reload-on-changes exp_server_code/wsgi.py
 
