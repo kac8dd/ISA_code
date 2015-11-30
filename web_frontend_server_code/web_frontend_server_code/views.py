@@ -4,11 +4,12 @@ from web_frontend_server_code.forms import LoginForm, EventForm, UserForm
 import urllib
 from urllib.parse import urlencode
 import json
+import datetime
 from urllib.error import HTTPError
 from django.core.urlresolvers import reverse
 
 
-unable = 'unable to get http response from models api'
+unable = 'unable to get http response from exp api'
 missing = 'missing required fields'
 post = 'must make a post request'
 no_index = 'The Elastic Search has not indexed anything yet. Try creating an event first!'
@@ -30,6 +31,8 @@ def index(request):
 		events = []
 		for key, value in resp.items():
 			events.append(value)
+		for event in events:
+			event["start_time"] = _clean_datetime_raw(event["start_time"])
 	except HTTPError:
 		return render(request, 'error.html', {"error":unable})
 	return render(request, 'eventlist.html', {'events': events, "name": name})
@@ -50,7 +53,7 @@ def details(request, event_id):
 		'event_name': jsondict['name'],
 		'event_desc': jsondict['description'],
 		'event_location': jsondict['location'],
-		'event_start_time': jsondict['start_time'],
+		'event_start_time': _clean_datetime(jsondict['start_time']),
 		'jsonstring': jsondict,
 	})
 
@@ -133,14 +136,16 @@ def add_event(request):
 	if request.method == "POST":
 		if 'name' not in request.POST or \
 			'description' not in request.POST or \
-			'start_time' not in request.POST or \
+			'date' not in request.POST or \
+			'time' not in request.POST or \
 			'location' not in request.POST:
 			return render(request,'error.html',{'error':missing})
 		post_value = {
 			'authenticator':auth,
 			'name':request.POST['name'],
 			'description':request.POST['description'],
-			'start_time':request.POST['start_time'],
+			'date':request.POST['date'],
+			'time':request.POST['time'],
 			'location':request.POST['location'],
 		}
 		data = urlencode(post_value).encode('utf-8')
@@ -149,7 +154,7 @@ def add_event(request):
 				content = url.read().decode('utf-8')
 			event_response = json.loads(content)
 		except HTTPError:
-			return render(request,'error.html',{'error':unable})
+			return render(request,'error.html',{'error':"HTTPError: exp_host cannot add event"})
 		if not event_response['ok']:
 			return render(request, 'error.html', {"error":event_response['error']})
 		event_id = event_response['resp']['event_id']
@@ -177,3 +182,23 @@ def search_event(request):
 		return render(request,'error.html',{'error':no_index})
 	events = event_response.values()
 	return render(request, 'search_event.html',{'events':events,'keyword':request.POST['keyword']})
+
+def _clean_datetime(api_string):
+	try:
+		c = api_string.rfind("+")
+		api_string = api_string[:c]
+		new_dt = datetime.datetime.strptime(api_string, "%Y-%m-%d %H:%M:%S")
+		new_str = datetime.datetime.strftime(new_dt, "%A, %b %d, %Y - %I:%M %p")
+	except:
+		c = api_string.rfind(".")
+		api_string = api_string[:c]
+		new_dt = datetime.datetime.strptime(api_string, "%Y-%m-%d %H:%M:%S")
+		new_str = datetime.datetime.strftime(new_dt, "%A, %b %d, %Y - %I:%M %p")		
+	return new_str
+
+def _clean_datetime_raw(api_string):
+	c = api_string.rfind(".")
+	api_string = api_string[:c]
+	new_dt = datetime.datetime.strptime(api_string, "%Y-%m-%dT%H:%M:%S")
+	new_str = datetime.datetime.strftime(new_dt, "%A, %b %d, %Y - %I:%M %p")
+	return new_str

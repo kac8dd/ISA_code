@@ -3,7 +3,7 @@ git clone https://github.com/kac8dd/ISA_code.git
 
 cd ISA_code
 
-PWD=`pwd`
+PWD=`/vagrant/ISA_code`
 
 docker run -d --name kafka --env ADVERTISED_HOST=kafka --env ADVERTISED_PORT=9092 spotify/kafka
 

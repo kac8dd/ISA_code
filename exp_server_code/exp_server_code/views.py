@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonRespons
 import urllib
 from urllib.parse import urlencode
 from urllib.error import HTTPError 
+import datetime
 import json
 import time
 
@@ -165,7 +166,7 @@ def create_event(request):
 	"""
 	method:POST
 	api call: "http://exp_host:8000/api/v1/event/create/"
-	input: authenticator, name, description, start_time, location
+	input: authenticator, name, description, date, time, location
 	normal case return: {"ok": true, "resp": {"event_id": 8}}
 	"""
 	if request.method != "POST":
@@ -173,7 +174,8 @@ def create_event(request):
 	if "authenticator" not in request.POST or \
 		"name" not in request.POST or \
 		"description" not in request.POST or \
-		"start_time" not in request.POST or \
+		"date" not in request.POST or \
+		"time" not in request.POST or \
 		"location" not in request.POST:
 		return _error_response(request, missing)
 	post_value = {
@@ -189,11 +191,15 @@ def create_event(request):
 	if not authenticate_response["ok"]:
 		return JsonResponse(authenticate_response)
 	user_id = authenticate_response["resp"]["user_id"]
+	try:
+		datetimestr = create_datetime_str(request.POST["date"], request.POST["time"])
+	except:
+		return _error_response(request, "unable to create python datetime object from input date/time")
 	post_value = {
 		"name" : request.POST["name"],
 		"description" : request.POST["description"],
 		"location" : request.POST["location"],
-		"start_time" : request.POST["start_time"],
+		"start_time" : datetimestr,
 		"creator_id" : user_id
 	}
 	data = urlencode(post_value).encode("utf-8")
@@ -246,3 +252,11 @@ def _success_response(request,resp=None):
         return JsonResponse({'ok': True, 'resp': resp})
     else:
         return JsonResponse({'ok': True})
+
+def create_datetime_str(date_str, time_str):
+    old_str = date_str + " " + time_str;
+    #visible input - 12/13/1992 08:09 PM
+    #actual input - 1992-12-13 20:09
+    new_dt = datetime.datetime.strptime(old_str, "%Y-%m-%d %H:%M")
+    new_str = str(new_dt)
+    return new_str

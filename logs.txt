@@ -1,0 +1,17 @@
+2015-11-18 22:21:23,234 CRIT Supervisor running as root (no user in config file)
+2015-11-18 22:21:23,235 WARN Included extra file "/etc/supervisor/conf.d/zookeeper.conf" during parsing
+2015-11-18 22:21:23,236 WARN Included extra file "/etc/supervisor/conf.d/kafka.conf" during parsing
+2015-11-18 22:21:23,475 INFO RPC interface 'supervisor' initialized
+2015-11-18 22:21:23,475 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2015-11-18 22:21:23,475 INFO supervisord started with pid 1
+2015-11-18 22:21:24,487 INFO spawned: 'zookeeper' with pid 10
+2015-11-18 22:21:24,488 INFO spawned: 'kafka' with pid 11
+2015-11-18 22:21:25,452 INFO exited: kafka (exit status 1; not expected)
+2015-11-18 22:21:26,455 INFO success: zookeeper entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2015-11-18 22:21:26,455 INFO spawned: 'kafka' with pid 30
+2015-11-18 22:21:26,483 INFO exited: kafka (exit status 1; not expected)
+2015-11-18 22:21:28,486 INFO spawned: 'kafka' with pid 43
+2015-11-18 22:21:28,531 INFO exited: kafka (exit status 1; not expected)
+2015-11-18 22:21:31,536 INFO spawned: 'kafka' with pid 55
+2015-11-18 22:21:31,604 INFO exited: kafka (exit status 1; not expected)
+2015-11-18 22:21:32,605 INFO gave up: kafka entered FATAL state, too many start retries too quickly

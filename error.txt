@@ -1,0 +1,55 @@
+c96b4ead418fe12467a38d83931815d5e603d95ef13b7e8840e9913ee6313dbf
+a2553fc29fb9d7ed2cc4016489d5f0abe3049092030df3fd0a2d3306ea151b0a
+7b2cf685dd8dcbd0ea238b62b2858bfc304f44a04dffcd1d4748fe39b1c34a53
+38e8302e615f7c6b6c91a46249dce19a718cd162cad85bb65dc138eb101340e5
+6209a1a99fd428e58aaa1cf4a00831935a697a42fa0a784bb7f9de316d049428
+Unable to connect to kafka broker at kafka:9092
+Traceback (most recent call last):
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/conn.py", line 211, in reinit
+    self._sock = socket.create_connection((self.host, self.port), self.timeout)
+  File "/usr/local/python/lib/python3.4/socket.py", line 512, in create_connection
+    raise err
+  File "/usr/local/python/lib/python3.4/socket.py", line 503, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+Error sending request [1] to server kafka:9092, trying next server
+Traceback (most recent call last):
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/conn.py", line 211, in reinit
+    self._sock = socket.create_connection((self.host, self.port), self.timeout)
+  File "/usr/local/python/lib/python3.4/socket.py", line 512, in create_connection
+    raise err
+  File "/usr/local/python/lib/python3.4/socket.py", line 503, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/client.py", line 115, in _send_broker_unaware_request
+    conn = self._get_conn(host, port)
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/client.py", line 58, in _get_conn
+    timeout=self.timeout
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/conn.py", line 64, in __init__
+    self.reinit()
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/conn.py", line 214, in reinit
+    self._raise_connection_error()
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/conn.py", line 82, in _raise_connection_error
+    raise ConnectionError("Kafka @ {0}:{1} went away".format(self.host, self.port))
+kafka.common.ConnectionError: Kafka @ kafka:9092 went away
+Traceback (most recent call last):
+  File "ISA_batch/batch.py", line 7, in <module>
+    consumer = KafkaConsumer('event', group_id='listing-indexer', bootstrap_servers=['kafka:9092'])
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/consumer/kafka.py", line 58, in __init__
+    self.configure(**configs)
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/consumer/kafka.py", line 141, in configure
+    timeout=(self._config['socket_timeout_ms'] / 1000.0)
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/client.py", line 44, in __init__
+    self.load_metadata_for_topics()  # bootstrap with all metadata
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/client.py", line 364, in load_metadata_for_topics
+    resp = self.send_metadata_request(topics)
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/client.py", line 430, in send_metadata_request
+    return self._send_broker_unaware_request(payloads, encoder, decoder)
+  File "/usr/local/python/lib/python3.4/site-packages/kafka/client.py", line 130, in _send_broker_unaware_request
+    raise KafkaUnavailableError('All servers failed to process request')
+kafka.common.KafkaUnavailableError: All servers failed to process request
+batch

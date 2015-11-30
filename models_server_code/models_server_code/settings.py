@@ -58,11 +58,11 @@ WSGI_APPLICATION = 'models_server_code.wsgi.application'
 
 DATABASES = {
         'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'cs4501',
-        'USER': 'www',
-        'PASSWORD': 'S3cure',
-        'HOST': 'db_host',
+            'ENGINE': 'mysql.connector.django',
+            'NAME': 'cs4501',
+            'USER': 'www',
+            'PASSWORD': 'S3cure',
+            'HOST': 'db_host',
         }
     }
 

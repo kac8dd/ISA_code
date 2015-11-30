@@ -4,8 +4,12 @@
 <br>
 <form method="post" action="/login/">
 	{{login_form.as_p}}
-	<input class="btn btn-primary" type="submit" name="submit" value="Login">
+	<br>
+	<input class="btn btn-lg btn-primary" type="submit" name="submit" value="Login">
 </form>
-	<a class="btn btn-primary" href='/user/create/'>Register</a>
+	<br><br>
+	<form method="get" action="/user/create/">
+		<button class="btn btn-lg btn-success" type="submit">Create Account</button>
+	</form>
 </div><!-- /.container -->
 {% endblock %}

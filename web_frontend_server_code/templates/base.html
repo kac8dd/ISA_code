@@ -8,10 +8,17 @@
 <head>
     <title>Ticket</title>
     <style>
-		body {
-		    padding-top: 50px;
-		}  
+  		body {
+  		    padding-top: 50px;
+  		} 
+      * {
+          -webkit-border-radius: 0 !important;
+          -moz-border-radius: 0 !important;
+            border-radius: 0 !important;
+      }
     </style>
+    {% block scripts %}
+    {% endblock %}
 </head>
 	<body>
 		    <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -27,7 +34,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Events</a></li>
+            <li><a href="/">Events</a></li>
             <li><a href="/login/">Login</a></li>
             <li><a href="/logout/">Logout</a></li>
           </ul>
