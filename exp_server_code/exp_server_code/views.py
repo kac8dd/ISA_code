@@ -7,13 +7,13 @@ import json
 import time
 
 #kafka
-from kafka import SimpleProducer, KafkaClient 
+# from kafka import SimpleProducer, KafkaClient 
 
 #es
 from elasticsearch import Elasticsearch
 
-kafka = KafkaClient('kafka:9092')
-producer = SimpleProducer(kafka)
+# kafka = KafkaClient('kafka:9092')
+# producer = SimpleProducer(kafka)
 es = Elasticsearch(['es'])
 not_use_post = 'must make post request'
 missing = 'missing required fields'
@@ -213,15 +213,15 @@ def create_event(request):
 		event_creator_json = url.read()
 	user_response = json.loads(event_creator_json.decode('utf-8'))
 	#kafka
-	event_id = event_response['resp']['event_id']
-	post_value['event_id'] = event_id
-	post_value['firstname'] = user_response['firstname']
-	post_value['lastname'] = user_response['lastname']
-	try:
-		producer.send_messages(b'event', json.dumps(post_value).encode('utf-8'))
-	except:
-		time.sleep(3)
-		producer.send_messages(b'event', json.dumps(post_value).encode('utf-8'))
+	# event_id = event_response['resp']['event_id']
+	# post_value['event_id'] = event_id
+	# post_value['firstname'] = user_response['firstname']
+	# post_value['lastname'] = user_response['lastname']
+	# try:
+	# 	producer.send_messages(b'event', json.dumps(post_value).encode('utf-8'))
+	# except:
+	# 	time.sleep(3)
+	# 	producer.send_messages(b'event', json.dumps(post_value).encode('utf-8'))
 	return JsonResponse(event_response)
 
 def search_event(request):
