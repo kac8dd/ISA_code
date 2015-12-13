@@ -1,0 +1,23 @@
+This guide is only for if you want to run the models tests in the models docker container. 
+
+1) give create db privledges to 'www' so django can create test db
+
+	ISA_code$ docker run -it --name mysql-cmdline2 --link mysql:db mysql:5.7.8 bash
+
+	root@63ac7e745784:/# mysql -uroot -p'S3cure' -h db
+		(prof's tutorial has root password '!Secure')
+
+	mysql> grant all on *.* to 'www'@'%';
+
+2) comment out test db settings in models/models/settings.py so we use mysql
+
+#import sys
+#if 'test' in sys.argv:
+#    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+#    DATABASES['default']['NAME'] = os.path.join(BASE_DIR, 'db.sqlite3')
+
+3) start models container and run the tests
+
+	ISA_code$ ./bash_vagrant/tty_models.sh
+
+	root@77d7ff9b0bac:/app# ./manage.py test
