@@ -1,0 +1,44 @@
+[
+  {
+    "model": "db_service.User",
+    "id": 1,
+    "fields": {
+    	"username": "testuser1",
+    	"date_joined": "2015-12-02 09:19:30.108740+03:00",
+    	"firstname": "Test",
+    	"lastname": "One",
+    	"password": "pbkdf2_sha256$10000$vkRy7QauoLLj$ry+3xm3YX+YrSXbri8s3EcXDIrx5ceM+xQjtpLdw2oE=",
+    	"is_active": "False"
+    }
+  },
+  {
+    "model": "db_service.Event",
+    "id": 1,
+    "fields": {
+    	"name": "testuser1",
+    	"description": "",
+    	"start_time": "2015-12-23 09:19:30.108740+03:00",
+    	"pub_date": "2015-12-14 09:19:30.108740+03:00",
+		"location": "120 Rice Hall",
+		"creator": 1
+    }
+  },
+  {
+    "model": "db_service.Ticket",
+    "id": 1,
+    "fields": {
+		"price": "4.0",
+		"event": 1,
+		"amount": 5
+    }
+  },
+  {
+    "model": "db_service.Purchase",
+    "id": 1,
+    "fields": {
+    	"buyer": 1,
+    	"ticket": 1,
+    	"date": "2015-12-15 09:19:30.108740+03:00"
+    }
+  }
+]
