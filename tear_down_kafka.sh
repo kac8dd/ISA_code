@@ -18,6 +18,7 @@ docker rm es
 docker stop kafka
 docker rm kafka
 
-
+docker stop pen
+docker rm pen
 
 
