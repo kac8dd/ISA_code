@@ -24,7 +24,7 @@ def index(request):
 def create_user(request):
 	"""
 	method:POST
-	api call: "http://exp_host:8000/api/v1/user/create/"
+	api call: "http://exp_host:80/api/v1/user/create/"
 	input:username, firstname, lastname, password
 	normal case return: {"resp": {"authenticator": "C/hVGf8L0+U43Pjc3hkjTkfNZKbWHHcayzvNZCJ/aVY="}, "ok": true}
 	"""
@@ -45,7 +45,7 @@ def create_user(request):
 	}
 	data = urlencode(post_value).encode('utf-8')
 	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/create/user/",data) as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/create/user/",data) as url:
 			content = url.read().decode('utf-8')
 		user_response = json.loads(content)
 	except HTTPError:
@@ -57,7 +57,7 @@ def create_user(request):
 
 	# get_user
 	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(user_id)) as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/get/user/"+str(user_id)) as url:
 			content = url.read().decode("utf-8")
 		user_response = json.loads(content)
 	except HTTPError:
@@ -71,7 +71,7 @@ def create_user(request):
 	}
 	data = urlencode(post_value).encode('utf-8')
 	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/create/authenticator/", data) as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/create/authenticator/", data) as url:
 			content = url.read().decode('utf-8')
 		authenticator_response = json.loads(content)
 	except HTTPError:
@@ -85,7 +85,7 @@ def create_user(request):
 def logout(request):
 	"""
 	method:POST
-	api call: "http://exp_host:8000/api/v1/user/logout/"
+	api call: "http://exp_host:80/api/v1/user/logout/"
 	input:authenticator
 	normal case return:{"ok": true, "resp": {"userid": 32}}
 	"""
@@ -99,7 +99,7 @@ def logout(request):
 
 	data = urlencode(post_value).encode('utf-8')
 	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/user/logout/",data) as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/user/logout/",data) as url:
 			content = url.read().decode('utf-8')
 		logout_response = json.loads(content)
 	except HTTPError:
@@ -111,7 +111,7 @@ def logout(request):
 def login(request):
 	"""
 	method:POST
-	api call: "http://exp_host:8000/api/v1/user/login/"
+	api call: "http://exp_host:80/api/v1/user/login/"
 	input:username, password
 	normal case return:{"resp": {"authenticator": "0SIZvopgP3D9H+YUm9aqBpC0brjrMbBwZg8jspJhj0g="}, "ok": true}
 	"""
@@ -126,7 +126,7 @@ def login(request):
 	}
 	data = urlencode(post_value).encode("utf-8")
 	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/user/validate/",data) as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/user/validate/",data) as url:
 			content = url.read().decode("utf-8")
 		validate_response = json.loads(content)
 	except HTTPError:
@@ -136,7 +136,7 @@ def login(request):
 	user_id = validate_response["resp"]["user_id"]
 	# get_user
 	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(user_id)) as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/get/user/"+str(user_id)) as url:
 			content = url.read().decode("utf-8")
 		user_response = json.loads(content)
 	except HTTPError:
@@ -151,7 +151,7 @@ def login(request):
 
 	data = urlencode(post_value).encode("utf-8")
 	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/create/authenticator/",data) as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/create/authenticator/",data) as url:
 			content = url.read().decode("utf-8")
 		authenticator_response = json.loads(content)
 	except HTTPError:
@@ -165,7 +165,7 @@ def login(request):
 def create_event(request):
 	"""
 	method:POST
-	api call: "http://exp_host:8000/api/v1/event/create/"
+	api call: "http://exp_host:80/api/v1/event/create/"
 	input: authenticator, name, description, date, time, location
 	normal case return: {"ok": true, "resp": {"event_id": 8}}
 	"""
@@ -183,7 +183,7 @@ def create_event(request):
 	}
 	data = urlencode(post_value).encode("utf-8")
 	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/user/authenticate/",data) as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/user/authenticate/",data) as url:
 			content = url.read().decode("utf-8")
 		authenticate_response = json.loads(content)
 	except HTTPError:
@@ -204,12 +204,12 @@ def create_event(request):
 	}
 	data = urlencode(post_value).encode("utf-8")
 	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/create/event/",data) as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/create/event/",data) as url:
 			content = url.read().decode("utf-8")
 		event_response = json.loads(content)
 	except HTTPError:
 		return _error_response(request, 'unable to get http response from models api create event')
-	with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+str(user_id)+"/") as url:
+	with urllib.request.urlopen("http://models_host:80/api/v1/get/user/"+str(user_id)+"/") as url:
 		event_creator_json = url.read()
 	user_response = json.loads(event_creator_json.decode('utf-8'))
 	#kafka
@@ -237,7 +237,7 @@ def search_event(request):
 	for event in result:
 		e = event['_source']
 		creator_id = str(e['creator_id'])
-		with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+creator_id+"/") as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/get/user/"+creator_id+"/") as url:
 			event_creator_json = url.read()
 		user_response = json.loads(event_creator_json.decode('utf-8'))
 		e['creator'] = user_response

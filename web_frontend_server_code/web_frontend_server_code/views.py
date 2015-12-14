@@ -25,7 +25,7 @@ def index(request):
 		name = "Guest"
 
 	try:
-		with urllib.request.urlopen("http://exp_host:8000/api/v1/home/") as url:
+		with urllib.request.urlopen("http://exp_host:80/api/v1/home/") as url:
 			latest_events_json = url.read()
 		resp = json.loads(latest_events_json.decode('utf-8'))
 		events = []
@@ -38,7 +38,7 @@ def index(request):
 	return render(request, 'eventlist.html', {'events': events, "name": name})
 
 def details(request, event_id):
-	url = "http://exp_host:8000/api/v1/view_event/" + event_id + "/"
+	url = "http://exp_host:80/api/v1/view_event/" + event_id + "/"
 	try:
 		with urllib.request.urlopen(url) as url:
 			details_json = url.read()
@@ -72,7 +72,7 @@ def create_user(request):
 		}
 		data = urlencode(post_value).encode('utf-8')
 		try:
-			with urllib.request.urlopen("http://exp_host:8000/api/v1/user/create/",data) as url:
+			with urllib.request.urlopen("http://exp_host:80/api/v1/user/create/",data) as url:
 				content = url.read().decode('utf-8')
 			user_response = json.loads(content)
 		except HTTPError:
@@ -103,7 +103,7 @@ def login(request):
 		}
 		data = urlencode(post_value).encode('utf-8')
 		try:
-			with urllib.request.urlopen("http://exp_host:8000/api/v1/user/login/", data) as url:
+			with urllib.request.urlopen("http://exp_host:80/api/v1/user/login/", data) as url:
 				content = url.read().decode("utf-8")
 			login_response = json.loads(content)
 		except HTTPError:
@@ -150,7 +150,7 @@ def add_event(request):
 		}
 		data = urlencode(post_value).encode('utf-8')
 		try:
-			with urllib.request.urlopen("http://exp_host:8000/api/v1/event/create/",data) as url:
+			with urllib.request.urlopen("http://exp_host:80/api/v1/event/create/",data) as url:
 				content = url.read().decode('utf-8')
 			event_response = json.loads(content)
 		except HTTPError:
@@ -175,7 +175,7 @@ def search_event(request):
 	}
 	data = urlencode(post_value).encode('utf-8')
 	try:
-		with urllib.request.urlopen("http://exp_host:8000/api/v1/event/search/",data) as url:
+		with urllib.request.urlopen("http://exp_host:80/api/v1/event/search/",data) as url:
 			content = url.read().decode('utf-8')
 		event_response = json.loads(content)
 	except HTTPError:

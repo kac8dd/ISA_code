@@ -25,7 +25,7 @@ def index(request):
 
 def get_event_page_json(request, event_id):
 	try:
-		with urllib.request.urlopen("http://models_host:8000/api/v1/get/event/"+event_id+"/") as url:
+		with urllib.request.urlopen("http://models_host:80/api/v1/get/event/"+event_id+"/") as url:
 			str_response = url.read().decode('utf-8') 
 			event_page_json = json.loads(str_response) 
 	except HTTPError:
