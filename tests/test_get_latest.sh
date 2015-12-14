@@ -25,5 +25,5 @@ do
 	echo "";echo ""
 done
 	
-curl localhost:8001/api/v1/get/latest/5/ > t.html && firefox t.html
+curl localhost:8001/api/v1/get/latest/5/ 
 echo "";echo "" 

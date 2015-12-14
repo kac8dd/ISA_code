@@ -22,14 +22,14 @@ from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     try:
-        with urllib.request.urlopen("http://models_host:8000/api/v1/get/latest/5/") as url:
+        with urllib.request.urlopen("http://models_host:80/api/v1/get/latest/5/") as url:
             latest_events_json = url.read()
         response = json.loads(latest_events_json.decode('utf-8'))
 
         # for each event in our response, replace 'creator': 'id' with 'creator': {name: bob, ...}
         for event_id in response:
             creator_id = str(response[event_id]['creator'])
-            with urllib.request.urlopen("http://models_host:8000/api/v1/get/user/"+creator_id+"/") as url:
+            with urllib.request.urlopen("http://models_host:80/api/v1/get/user/"+creator_id+"/") as url:
                 event_creator_json = url.read()
             user_response = json.loads(event_creator_json.decode('utf-8'))
             response[event_id]['creator'] = user_response

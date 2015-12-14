@@ -53,5 +53,5 @@ echo "";echo ""
 curl localhost:8001/api/v1/get/purchase/1/ 
 echo "";echo ""
 
-curl localhost:8001/api/v1/get/latest/5/ > t.html && firefox t.html 
+curl localhost:8001/api/v1/get/latest/5/ 
 echo "";echo "" 

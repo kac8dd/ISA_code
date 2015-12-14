@@ -8,9 +8,8 @@
 ##	and the eventpage service for event.id=1
 #########################################################
 
-curl localhost:8002/api/v1/home/ > response.html && firefox *html
-echo"hello"; 
+curl localhost:8002/api/v1/home/ 
 echo ""; echo ""
 
-#curl localhost:8002/api/v1/view_event/event=1/
+curl localhost:8002/api/v1/view_event/event=1/
 echo ""; echo "" 
