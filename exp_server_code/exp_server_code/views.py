@@ -7,14 +7,14 @@ import json
 import time
 
 #kafka
-from kafka import SimpleProducer, KafkaClient 
+#from kafka import SimpleProducer, KafkaClient 
 
 #es
-from elasticsearch import Elasticsearch
+#from elasticsearch import Elasticsearch
 
-kafka = KafkaClient('kafka:9092')
-producer = SimpleProducer(kafka)
-es = Elasticsearch(['es'])
+#kafka = KafkaClient('kafka:9092')
+#producer = SimpleProducer(kafka)
+#es = Elasticsearch(['es'])
 not_use_post = 'must make post request'
 missing = 'missing required fields'
 

@@ -15,8 +15,8 @@
     "model": "db_service.Event",
     "id": 1,
     "fields": {
-    	"name": "testuser1",
-    	"description": "",
+    	"name": "testevent1",
+    	"description": "desc",
     	"start_time": "2015-12-23 09:19:30.108740+03:00",
     	"pub_date": "2015-12-14 09:19:30.108740+03:00",
 		"location": "120 Rice Hall",
@@ -39,6 +39,14 @@
     	"buyer": 1,
     	"ticket": 1,
     	"date": "2015-12-15 09:19:30.108740+03:00"
+    }
+  },
+  {
+    "model": "db_service.Authenticator",
+    "id": 1,
+    "fields": {
+    	"authenticator": 1,
+    	"user_id": 1
     }
   }
 ]
